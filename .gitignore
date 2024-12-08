@@ -1,0 +1,6 @@
+__venv__
+__pycache__
+settings.json
+library/private.key
+logs
+/.idea
