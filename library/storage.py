@@ -272,7 +272,7 @@ class ConfPostgreSQL:
             },
             "user_jobs": {
                 "started_timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
-                "user_id": "BIGINT NOT NULL PRIMARY KEY",
+                "user_id": "BIGINT NOT NULL PRIMARY KEY references user_data(user_id)",
                 "guild_id": "BIGINT NOT NULL",
                 "job_id": "BIGINT NOT NULL",
             },
@@ -281,7 +281,7 @@ class ConfPostgreSQL:
                 "channel_id": "BIGINT NOT NULL UNIQUE",
             },
             "job_requests": {
-                "user_id": "BIGINT NOT NULL",
+                "user_id": "BIGINT NOT NULL references user_data(user_id)",
                 "guild_id": "BIGINT NOT NULL",
                 "job_id": "BIGINT NOT NULL",
                 "timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
@@ -290,8 +290,16 @@ class ConfPostgreSQL:
                 "msg_id": "BIGINT NOT NULL PRIMARY KEY",
                 "guild_id": "BIGINT NOT NULL",
                 "channel_id": "BIGINT NOT NULL",
-                "user_id": "BIGINT NOT NULL",
+                "user_id": "BIGINT NOT NULL references user_data(user_id)",
                 "job_id": "BIGINT NOT NULL",
+            },
+            # Requests for a restricted job that have been approved by the staff, but need to be re-confirmed by the user to accept the job
+            "job_requests_approved_pending_acceptance": {
+                "applicant_id": "BIGINT NOT NULL references user_data(user_id)",
+                "guild_id": "BIGINT NOT NULL",
+                "tracked_msg_id": "BIGINT NOT NULL PRIMARY KEY",
+                "job_id": "BIGINT NOT NULL",
+                "timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
             },
             "paydays": {
                 "guild_id": "BIGINT NOT NULL PRIMARY KEY",
@@ -533,7 +541,7 @@ class bank:
             cur = conn.cursor()
             cur.execute('SELECT balance FROM user_bank WHERE user_id = %s;', (self.owner_id,))
             data = cur.fetchone()
-            return data[0]
+            return data[0] if data is not None else None
 
     def modify_balance(self, amount:int, operator:str) -> bool:
         """
@@ -611,6 +619,176 @@ class PostgreSQL:
             self.user_id = int(user_id)
             self.bank = bank(self.user_id)
 
+        async def quit_job(self, guild_id) -> bool | int:
+            """
+            Quit a job in a guild.
+
+            :param guild_id: The ID of the guild to quit the job in.
+            :return: True if the job was successfully quit, False if the job was not successfully quit. -1 if the bot does not have permission to remove the role.
+            """
+            job_data = self.get_job_for_guild(guild_id)
+            if job_data is None:
+                return -2
+
+            from library.botapp import botapp
+            try:
+                await botapp.rest.remove_role_from_member(
+                    guild_id,
+                    self.user_id,
+                    job_data['job_id']
+                )
+            except hikari.errors.ForbiddenError:
+                return -1
+
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('''
+                    DELETE FROM user_jobs
+                    WHERE user_id = %s AND guild_id = %s AND job_id = %s;
+                ''', (self.user_id, guild_id, job_data['job_id']))
+                conn.commit()
+            return True
+
+        @staticmethod
+        def msg_id_is_job_req_msg(msg_id):
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('''
+                    SELECT EXISTS (
+                        SELECT FROM job_request_msgs
+                        WHERE msg_id = %s
+                    );
+                ''', (msg_id,))
+                data = cur.fetchone()
+                if data is None:
+                    return False
+                else:
+                    return True
+
+        async def accept_restricted_job(self, message_id) -> bool:
+            """
+            Accept a restricted job that has been approved by the staff.
+
+            :return: True if the job was successfully accepted, False if the job was not successfully accepted.
+            """
+            from library.botapp import botapp
+            message_id = int(message_id)
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('''
+                    SELECT job_id, guild_id
+                    FROM job_requests_approved_pending_acceptance
+                    WHERE tracked_msg_id = %s AND applicant_id = %s;
+                ''', (message_id, self.user_id))
+                data = cur.fetchone()
+
+                if data is None:
+                    return False
+
+                job_id, guild_id = data
+
+                # Adds role to self
+                try:
+                    await botapp.rest.add_role_to_member(guild_id, self.user_id, job_id)
+                except hikari.errors.ForbiddenError:
+                    return False
+                except hikari.errors.NotFoundError:
+                    return False
+                except hikari.errors.UnauthorizedError:
+                    return False
+
+                cur.execute('''
+                    DELETE FROM job_requests_approved_pending_acceptance
+                    WHERE tracked_msg_id = %s AND applicant_id = %s;
+                ''', (message_id, self.user_id))
+
+                cur.execute('''
+                    INSERT INTO user_jobs (user_id, guild_id, job_id)
+                    VALUES (%s, %s, %s);
+                ''', (self.user_id, guild_id, job_id))
+                conn.commit()
+
+            # If a job requests channel exists, send a message to it
+            guild_pg = PostgreSQL.guild(guild_id)
+            guild_pg.ensure_guild_exists()
+            job_request_channel = guild_pg.get_job_request_channel()
+
+            if job_request_channel is None:
+                return True
+
+            localize = guild_pg.localize
+            embed = (
+                hikari.Embed(
+                    title=localize('Job Accepted'),
+                    description=localize('The user <@%s> has accepted the job <@&%s>!', variables=(self.user_id, job_id)),
+                    color=0x00FF00
+                )
+            )
+
+            try:
+                await botapp.rest.create_message(job_request_channel, embed=embed)
+            except hikari.errors.ForbiddenError:
+                # We return true here because the user has accepted the job and gotten the role,
+                # but the message could not be sent to the job request channel.
+                return True
+            except hikari.errors.NotFoundError:
+                return True
+            except hikari.errors.UnauthorizedError:
+                return True
+
+            return True
+
+        async def request_job_confirmation(self, guild_id, job_id) -> bool:
+            """
+            Saves to the DB table 'job_requests_approved_pending_acceptance' that the user has been approved for a job
+            and is pending re-acceptance by the user.
+            :param guild_id:
+            :param job_id:
+            :return:
+            """
+            guild_id = int(guild_id)
+            job_id = int(job_id)
+
+            # DM the user to let them know they have been approved for the job
+            from library.botapp import botapp
+            guild_pg = PostgreSQL.guild(guild_id)
+            localize = guild_pg.localize
+
+            try:
+                job_name = botapp.d['job_names_map'][job_id]
+            except KeyError:
+                # Save the job name to the botapp.d['job_names_map'] dictionary for future use
+                job_role = await botapp.rest.fetch_role(guild_id, job_id)
+                job_name = job_role.name
+                botapp.d['job_names_map'][job_id] = job_name
+
+            embed = (
+                hikari.Embed(
+                    title=localize('Job Approved'),
+                    description=localize('You have been approved for the job %s!', variables=(job_name,)),
+                    color=0x00FF00
+                )
+                .add_field(
+                    name=localize('Accept?'),
+                    value=localize('React with %s to accept the job.', variables=("✅",)),
+                )
+            )
+
+            dm_channel = await botapp.rest.create_dm_channel(self.user_id)
+            msg = await dm_channel.send(embed)
+
+            await msg.add_reaction('✅')
+
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('''
+                    INSERT INTO job_requests_approved_pending_acceptance (applicant_id, guild_id, job_id, tracked_msg_id)
+                    VALUES (%s, %s, %s, %s);
+                ''', (self.user_id, guild_id, job_id, int(msg.id)))
+                conn.commit()
+
+            return True
+
         async def request_job_access(self, guild_id, job_id) -> bool:
             """
             Request access to a job in a guild.
@@ -635,14 +813,15 @@ class PostgreSQL:
             localize = guild_pg.localize
 
             channel_id = guild_pg.get_job_request_channel()
+            from library.botapp import botapp
 
             if channel_id is not None:
                 embed = (
                     hikari.Embed(
                         title=localize('Job Request'),
                         description=localize(
-                            '<@%s> is requesting access to a job.',
-                            variables=(self.user_id,)
+                            '<@%s> is requesting access to <@&%s> job.',
+                            variables=(self.user_id, job_id,)
                             ),
                         color=0x00FF00
                     )
@@ -652,7 +831,6 @@ class PostgreSQL:
                     )
                 )
 
-                from library.botapp import botapp
                 msg = await botapp.rest.create_message(
                     channel_id,
                     embed
@@ -788,6 +966,7 @@ class PostgreSQL:
             Fetch the saved data of the user.
 
             :returns dict: The saved data of the user.
+            Formatted as {user_id, username, avatar_url, is_human
             """
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
@@ -918,6 +1097,18 @@ class PostgreSQL:
             return data is not None
 
         @staticmethod
+        def delete_job_req_msg(msg_id):
+            """
+            Delete a job request message.
+
+            :param msg_id: The ID of the message.
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('DELETE FROM job_request_msgs WHERE msg_id = %s;', (msg_id,))
+                conn.commit()
+
+        @staticmethod
         def get_job_request_msg(msg_id):
             """
             Get a job request message.
@@ -946,7 +1137,7 @@ class PostgreSQL:
             else:
                 return None
 
-        def get_job_request_channel(self):
+        def get_job_request_channel(self) -> int | None:
             """
             Get the job request channel of the guild.
 
@@ -955,7 +1146,8 @@ class PostgreSQL:
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
                 cur.execute('SELECT channel_id FROM job_request_channels WHERE guild_id = %s;', (self.guild_id,))
-                return cur.fetchone()[0]
+                data = cur.fetchone()
+                return data[0] if data is not None else None
 
         def set_job_request_channel(self, channel_id):
             """

@@ -19,13 +19,15 @@ TOKEN = keys.decrypt(var.get('token'))
 
 botapp = lightbulb.BotApp(
     token=TOKEN,
-    intents=hikari.Intents.GUILD_MESSAGE_REACTIONS + hikari.Intents.GUILDS
+    intents=hikari.Intents.ALL_MESSAGE_REACTIONS + hikari.Intents.GUILDS
 )
 tasks.load(botapp)
 
 botapp.d['permissions_cache'] = {}
 botapp.d['colourless'] = hikari.Colour(0x2b2d31)
 botapp.d['guild_sys_channels'] = {}
+botapp.d['getting_user_data'] = []
+botapp.d['job_names_map'] = {}
 
 class permissions:
     @staticmethod

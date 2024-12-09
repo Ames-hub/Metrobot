@@ -83,6 +83,7 @@ async def command(ctx: lightbulb.SlashContext, jobrole:hikari.Role) -> None:
                     localize("We couldn't send your application to join this job.") + "\n" + localize("Have the admins set up the job requests system properly?"),
                     flags=hikari.MessageFlag.EPHEMERAL
                 )
+                return
 
         # User does not have a job in this guild. Assign the job.
         try:

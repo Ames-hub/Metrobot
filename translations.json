@@ -169,10 +169,10 @@
     "es": "Solicitud de trabajo",
     "fr": "Demande d'emploi"
   },
-  "<@%s> is requesting access to a job.": {
-    "en": "<@%s> is requesting access to a job.",
-    "es": "<@%s> está solicitando acceso a un trabajo.",
-    "fr": "<@%s> demande l'accès à un emploi."
+  "<@%s> is requesting access to <@&%s> job.": {
+    "en": "<@%s> is requesting access to <@&%s> job.",
+    "es": "<@%s> está solicitando acceso al trabajo <@&%s>.",
+    "fr": "<@%s> demande l'accès à l'emploi <@&%s>."
   },
   "Approve?": {
     "en": "Approve?",
@@ -448,5 +448,80 @@
     "en": "Balance | Your Bank",
     "es": "Saldo | Tu Banco",
     "fr": "Solde | Votre Banque"
+  },
+  "Job Approved!": {
+    "en": "Job Approved!",
+    "es": "¡Trabajo aprobado!",
+    "fr": "Emploi approuvé!"
+  },
+  "Job Approved": {
+    "en": "Job Approved",
+    "es": "Trabajo aprobado",
+    "fr": "Emploi approuvé"
+  },
+  "You have been approved for the job %s!": {
+    "en": "You have been approved for the job %s!",
+    "es": "¡Has sido aprobado para el trabajo %s!",
+    "fr": "Vous avez été approuvé pour l'emploi %s!"
+  },
+  "Accept?": {
+    "en": "Accept?",
+    "es": "¿Aceptar?",
+    "fr": "Accepter?"
+  },
+  "React with %s to accept the job.": {
+    "en": "React with %s to accept the job.",
+    "es": "Reacciona con %s para aceptar el trabajo.",
+    "fr": "Réagissez avec %s pour accepter l'emploi."
+  },
+  "The user <@%s> has accepted the job <@&%s>!": {
+    "en": "The user <@%s> has accepted the job <@&%s>!",
+    "es": "¡El usuario <@%s> ha aceptado el trabajo <@&%s>!",
+    "fr": "L'utilisateur <@%s> a accepté l'emploi <@&%s>!"
+  },
+  "You have quit your job.": {
+    "en": "You have quit your job.",
+    "es": "Has renunciado a tu trabajo.",
+    "fr": "Vous avez quitté votre emploi."
+  },
+  "You are now unemployed.": {
+    "en": "You are now unemployed.",
+    "es": "Ahora estás desempleado.",
+    "fr": "Vous êtes maintenant au chômage."
+  },
+  "I don't have permission to remove this role :( Make sure the role's position is lower than mine!": {
+    "en": "I don't have permission to remove this role :( Make sure the role's position is lower than mine!",
+    "es": "No tengo permiso para eliminar este rol :( ¡Asegúrate de que la posición del rol sea inferior a la mía!",
+    "fr": "Je n'ai pas la permission de supprimer ce rôle :( Assurez-vous que la position du rôle est inférieure à la mienne!"
+  },
+  "You are still employed.": {
+    "en": "You are still employed.",
+    "es": "Todavía estás empleado.",
+    "fr": "Vous êtes toujours employé."
+  },
+  "We couldn't figure out how to quit?": {
+    "en": "We couldn't figure out how to quit?",
+    "es": "¿No pudimos averiguar cómo renunciar?",
+    "fr": "Nous n'avons pas pu comprendre comment quitter?"
+  },
+  "If you were employed, you still are.": {
+    "en": "If you were employed, you still are.",
+    "es": "Si estabas empleado, todavía lo estás.",
+    "fr": "Si vous étiez employé, vous l'êtes toujours."
+  },
+  "Job Accepted": {
+    "en": "Job Accepted",
+    "es": "Trabajo aceptado",
+    "fr": "Emploi accepté"
+  },
+  "You don't have a job to quit.": {
+    "en": "You don't have a job to quit.",
+    "es": "No tienes un trabajo para renunciar.",
+    "fr": "Vous n'avez pas d'emploi à quitter."
+  },
+  "You are unemployed.": {
+    "en": "You are unemployed.",
+    "es": "Estás desempleado.",
+    "fr": "Vous êtes au chômage."
   }
 }

@@ -68,7 +68,8 @@ import hikari
         "fr": "Ce travail nécessite-t-il l'approbation d'un admin pour être assigné?"
     },
     type=hikari.OptionType.BOOLEAN,
-    required=True,
+    required=False,
+    default=False
 )
 @lightbulb.add_cooldown(bucket=lightbulb.buckets.GuildBucket, length=5, uses=1)
 @lightbulb.add_checks(

@@ -22,8 +22,10 @@ import hikari
 )
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(ctx: lightbulb.SlashContext) -> None:
+    user_pg = PostgreSQL.user(ctx.author.id)
+    user_pg.ensure_user_exists()
     localise = PostgreSQL.guild(ctx.guild_id).localize
-    balance = PostgreSQL.user(ctx.author.id).bank.get_balance()
+    balance = user_pg.bank.get_balance()
 
     embed = (
         hikari.Embed(
