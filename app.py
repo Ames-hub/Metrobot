@@ -1,19 +1,17 @@
 from library.storage import var, ConfPostgreSQL
 from library.encryption import encryption
-from library.botapp import botapp
-import os
-
-os.makedirs('logs', exist_ok=True)
 keys = encryption('library/private.key')
 
 if var.get("token") is None:
     token = input("Please enter bot token: ")
     var.set("token", keys.encrypt(token))
 
+from library.botapp import botapp
 import datetime
 import logging
 import dotenv
 import hikari
+import os
 
 dotenv.load_dotenv('.env')
 
@@ -50,5 +48,9 @@ botapp.load_extensions_from("cogs/jobs")
 if bool(os.environ.get("REVEAL_DB_PASS", False)) is True:
     print("Environment variable REVEAL_DB_PASS is set to True")
     print("Database password is:", keys.decrypt(var.get("db.password")))
+
+if bool(os.environ.get("REVEAL_BOT_TOKEN", False)) is True:
+    print("Environment variable REVEAL_BOT_TOKEN is set to True")
+    print("Bot token is:", keys.decrypt(var.get("token")))
 
 botapp.run()

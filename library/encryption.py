@@ -4,6 +4,8 @@ import datetime
 import logging
 import os
 
+os.makedirs('logs', exist_ok=True)
+
 logging.basicConfig(
     filename=f'logs/{datetime.datetime.now().strftime("%Y-%m-%d")}.log',
     level=logging.INFO,
