@@ -25,6 +25,7 @@ tasks.load(botapp)
 
 botapp.d['permissions_cache'] = {}
 botapp.d['colourless'] = hikari.Colour(0x2b2d31)
+botapp.d['guild_sys_channels'] = {}
 
 class permissions:
     @staticmethod

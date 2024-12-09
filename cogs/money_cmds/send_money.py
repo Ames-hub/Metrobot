@@ -62,13 +62,17 @@ async def command(ctx: lightbulb.SlashContext, target_user:hikari.User, amount:i
     user_pg.ensure_user_exists()
     user_pg.save_user(
         username=ctx.author.username,
-        avatar_url=ctx.author.avatar_url
+        avatar_url=ctx.author.avatar_url,
+        is_human=(ctx.author.is_bot or ctx.author.is_system) is False,
+        guild_id=ctx.guild_id
     )
     target_pg = PostgreSQL.user(target_user.id)
     target_pg.ensure_user_exists()
     target_pg.save_user(
         username=target_user.username,
-        avatar_url=target_user.avatar_url
+        avatar_url=target_user.avatar_url,
+        is_human=(target_user.is_bot or target_user.is_system) is False,
+        guild_id=ctx.guild_id
     )
 
     if target_user.id == ctx.author.id:

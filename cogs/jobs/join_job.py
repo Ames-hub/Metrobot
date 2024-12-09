@@ -55,7 +55,9 @@ async def command(ctx: lightbulb.SlashContext, jobrole:hikari.Role) -> None:
     user_pg.ensure_user_exists()
     user_pg.save_user(
         username=ctx.author.username,
-        avatar_url=ctx.author.avatar_url
+        avatar_url=ctx.author.avatar_url,
+        is_human=(ctx.author.is_bot or ctx.author.is_system) is False,
+        guild_id=ctx.guild_id
     )
     job_data = user_pg.get_job_for_guild(ctx.guild_id)
 

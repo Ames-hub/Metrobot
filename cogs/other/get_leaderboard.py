@@ -30,7 +30,7 @@ async def command(ctx: lightbulb.SlashContext) -> None:
         leaderboard = leaderboard[:10]
 
     embed = (
-        hikari.Embed(  # TODO: Localize me to the guild's language
+        hikari.Embed(
             title=localise("Leaderboard"),
             description=localise("Top 10 users in the leaderboard"),
             colour=botapp.d["colourless"]
@@ -50,11 +50,14 @@ async def command(ctx: lightbulb.SlashContext) -> None:
             user_data = {
                 "id": user_data.id,
                 "username": user_data.username,
-                "avatar_url": user_data.avatar_url
+                "avatar_url": user_data.avatar_url,
+                "is_human": (user_data.is_bot or user_data.is_system) is False
             }
             user_pg.save_user(
                 username=user_data["username"],
-                avatar_url=user_data["avatar_url"]
+                avatar_url=user_data["avatar_url"],
+                is_human=user_data["is_human"],
+                guild_id=ctx.guild_id
             )
 
         leaderboard_value += f"{user_data['username']} - {localise("$")}{leaderboard[user_id]}\n"

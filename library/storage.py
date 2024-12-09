@@ -224,6 +224,12 @@ class ConfPostgreSQL:
                 'user_id': 'BIGINT NOT NULL PRIMARY KEY',
                 'avatar_url': 'TEXT DEFAULT NULL',
                 'username': 'TEXT NOT NULL',
+                'is_human': 'BOOLEAN DEFAULT TRUE',
+            },
+            # Used by run_payday.py to get all the members of a guild
+            'user_in_guilds': {
+                'user_id': 'BIGINT NOT NULL PRIMARY KEY',
+                'guild_id': 'BIGINT NOT NULL',
             },
             'user_bank': {
                 'user_id': 'BIGINT NOT NULL PRIMARY KEY references user_data(user_id)',
@@ -268,7 +274,7 @@ class ConfPostgreSQL:
                 "started_timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
                 "user_id": "BIGINT NOT NULL PRIMARY KEY",
                 "guild_id": "BIGINT NOT NULL",
-                "job_id": "BIGINT NOT NULL UNIQUE",  # The job ID is the role ID. Can't have the same job assigned twice.
+                "job_id": "BIGINT NOT NULL",
             },
             "job_request_channels": {
                 "guild_id": "BIGINT NOT NULL PRIMARY KEY",
@@ -602,8 +608,8 @@ class PostgreSQL:
 
     class user:
         def __init__(self, user_id: int):
-            self.user_id = user_id
-            self.bank = bank(user_id)
+            self.user_id = int(user_id)
+            self.bank = bank(self.user_id)
 
         async def request_job_access(self, guild_id, job_id) -> bool:
             """
@@ -675,14 +681,25 @@ class PostgreSQL:
             :param guild_id: The ID of the guild.
             :param job_id: The ID of the job.
             """
-            with ConfPostgreSQL.get_connection() as conn:
-                cur = conn.cursor()
+            guild_id = int(guild_id)
+            job_id = int(job_id)
+            try:
+                with ConfPostgreSQL.get_connection() as conn:
+                    cur = conn.cursor()
+                    cur.execute('''
+                        INSERT INTO user_jobs (user_id, guild_id, job_id)
+                        VALUES (%s, %s, %s)
+                    ''', (self.user_id, guild_id, job_id))
+                    conn.commit()
+            except psycopg2.errors.UniqueViolation:
+                # Run update instead
                 cur.execute('''
-                    INSERT INTO user_jobs (user_id, guild_id, job_id)
-                    VALUES (%s, %s, %s)
-                    ON CONFLICT (user_id, guild_id) DO UPDATE SET job_id = %s;
-                ''', (self.user_id, guild_id, job_id, job_id))
+                    UPDATE user_jobs
+                    SET job_id = %s
+                    WHERE user_id = %s AND guild_id = %s;
+                ''', (job_id, self.user_id, guild_id))
                 conn.commit()
+
 
         def get_job_for_guild(self, guild_id):
             """
@@ -735,22 +752,33 @@ class PostgreSQL:
                     return False
                 return True
 
-        def save_user(self, username, avatar_url):
+        def save_user(self, username, avatar_url, is_human: bool = True, guild_id: int = None) -> bool:
             """
             Save the user to the database.
 
             :param username: The username of the user.
             :param avatar_url: The avatar URL of the user.
+            :param is_human: Whether the user is a human or not.
+            :param guild_id: The ID of the guild the user is in.
             """
             try:
                 with ConfPostgreSQL.get_connection() as conn:
                     cur = conn.cursor()
                     cur.execute('''
-                        INSERT INTO user_data (user_id, username, avatar_url)
-                        VALUES (%s, %s, %s)
+                        INSERT INTO user_data (user_id, username, avatar_url, is_human)
+                        VALUES (%s, %s, %s, %s)
                         ON CONFLICT (user_id) DO UPDATE SET username = %s, avatar_url = %s;
-                    ''', (int(self.user_id), str(username), str(avatar_url), str(username), str(avatar_url)))
+                    ''', (int(self.user_id), str(username), str(avatar_url), bool(is_human), str(username), str(avatar_url)))
                     conn.commit()
+
+                    # IF guild_id is not none, remember the user in the guild
+                    if guild_id is not None:
+                        cur.execute('''
+                            INSERT INTO user_in_guilds (user_id, guild_id)
+                            VALUES (%s, %s)
+                            ON CONFLICT (user_id) DO NOTHING;
+                        ''', (int(self.user_id), int(guild_id)))
+                        conn.commit()
             except psycopg2.errors.ForeignKeyViolation:
                 return False
             return True
@@ -764,7 +792,7 @@ class PostgreSQL:
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
                 cur.execute(
-                    'SELECT user_id, username, avatar_url FROM user_data WHERE user_id = %s;',
+                    'SELECT user_id, username, avatar_url, is_human FROM user_data WHERE user_id = %s;',
                     (self.user_id,)
                 )
                 data = cur.fetchone()
@@ -774,7 +802,8 @@ class PostgreSQL:
                 return {
                     'user_id': data[0],
                     'username': data[1],
-                    'avatar_url': data[2]
+                    'avatar_url': data[2],
+                    'is_human': data[3]
                 }
             else:
                 return None
@@ -786,6 +815,19 @@ class PostgreSQL:
             self.lang = None
             self.translations_file = "translations.json"
             self.translations = None
+
+        def get_known_members(self):
+            """
+            Get the known members of the guild.
+
+            :return: The known members of the guild.
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT user_id FROM user_data WHERE user_id IN (SELECT user_id FROM user_in_guilds WHERE guild_id = %s);', (self.guild_id,))
+                data = cur.fetchall()
+
+            return [user_id for user_id, in data]
 
         def list_job_roles(self):
             """
@@ -1124,6 +1166,8 @@ class PostgreSQL:
                     for placeholder in variables:
                         translation = translation.replace('%s', str(placeholder), 1)
 
+                # Replace <br> with newlines
+                translation = translation.replace('<br>', '\n')
                 return translation
             except KeyError as err:
                 logging.error(f"Translation for '{text}' with lang {self.lang} not found.", err)

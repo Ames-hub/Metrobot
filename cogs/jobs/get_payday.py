@@ -62,8 +62,8 @@ async def command(ctx: lightbulb.SlashContext) -> None:
         hikari.Embed(
             title="Payday",
             description=localize(
-                "Your payday is set to %s.\nThat's %s",
-                variables=(payday, f"<t:{timestamp}:R>",)
+                "Your payday is set to be on %s.<br>That's %s",
+                variables=(payday, f"<t:{int(timestamp)}:R>",)
             )
         )
     )

@@ -314,10 +314,10 @@
     "es": "Nadie fue mencionado porque nadie tiene un trabajo.",
     "fr": "Personne n'a été mentionné car personne n'a d'emploi."
   },
-  "Ping List: " : {
-    "en": "Ping List: ",
-    "es": "Lista de menciones: ",
-    "fr": "Liste de ping: "
+  "Jobs paid: " : {
+    "en": "Jobs paid: ",
+    "es": "Trabajos pagados: ",
+    "fr": "Emplois payés: "
   },
   "I don't have permission to assign you this role :( Make sure the role's position is lower than mine!" : {
     "en": "I don't have permission to assign you this role :( Make sure the role's position is lower than mine!",
@@ -428,5 +428,25 @@
     "en": "The user has been fined %s%s.",
     "es": "El usuario ha sido multado con %s%s.",
     "fr": "L'utilisateur a été condamné à %s%s."
+  },
+  "You are now a %s.": {
+    "en": "You are now a %s.",
+    "es": "Ahora eres un %s.",
+    "fr": "Vous êtes maintenant un %s."
+  },
+  "Your payday is set to be on %s.<br>That's %s": {
+    "en": "Your payday is set to be on %s.<br>That's %s",
+    "es": "Tu día de pago está programado para ser el %s.<br>Es %s",
+    "fr": "Votre jour de paie est fixé au %s.<br>C'est %s"
+  },
+  "You have %s%s in your bank account.": {
+    "en": "You have %s%s in your bank account.",
+    "es": "Tienes %s%s en tu cuenta bancaria.",
+    "fr": "Vous avez %s%s sur votre compte bancaire."
+  },
+  "Balance | Your Bank": {
+    "en": "Balance | Your Bank",
+    "es": "Saldo | Tu Banco",
+    "fr": "Solde | Votre Banque"
   }
 }
