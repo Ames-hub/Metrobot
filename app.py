@@ -1,24 +1,36 @@
-import os
-os.makedirs('logs', exist_ok=True)
-
+from library.storage import var, ConfPostgreSQL
 from library.encryption import encryption
-from library.storage import var
+from library.botapp import botapp
+import os
+
+os.makedirs('logs', exist_ok=True)
 keys = encryption('library/private.key')
 
 if var.get("token") is None:
     token = input("Please enter bot token: ")
     var.set("token", keys.encrypt(token))
 
-from library.botapp import botapp
 import datetime
 import logging
+import dotenv
 import hikari
+
+dotenv.load_dotenv('.env')
 
 logging.basicConfig(
     filename=f'logs/{datetime.datetime.now().strftime("%Y-%m-%d")}.log',
     level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s'
 )
+
+db_container_status = ConfPostgreSQL.check_db_container()
+# No container found
+if db_container_status == -1:
+    ConfPostgreSQL.make_db_container()
+elif db_container_status is False:
+    ConfPostgreSQL.start_db()
+
+ConfPostgreSQL.modernize()
 
 @botapp.listen()
 async def on_ready(event: hikari.events.ShardReadyEvent) -> None:
@@ -30,5 +42,13 @@ async def on_ready(event: hikari.events.ShardReadyEvent) -> None:
 # Load all cogs
 botapp.load_extensions_from("cogs")
 botapp.load_extensions_from("cogs/tasks")
+botapp.load_extensions_from("cogs/admin")
+botapp.load_extensions_from("cogs/other")
+botapp.load_extensions_from("cogs/money_cmds")
+botapp.load_extensions_from("cogs/jobs")
+
+if bool(os.environ.get("REVEAL_DB_PASS", False)) is True:
+    print("Environment variable REVEAL_DB_PASS is set to True")
+    print("Database password is:", keys.decrypt(var.get("db.password")))
 
 botapp.run()

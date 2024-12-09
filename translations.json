@@ -1,0 +1,432 @@
+{
+  "Top 10 users in the leaderboard": {
+    "en": "Top 10 users in the leaderboard",
+    "es": "Top 10 usuarios en el ranking",
+    "fr": "Top 10 utilisateurs dans le classement"
+  },
+  "Leaderboard": {
+    "en": "Leaderboard",
+    "es": "Clasificación",
+    "fr": "Classement"
+  },
+  "$": {
+    "en": "$",
+    "es": "€",
+    "fr": "€"
+  },
+  "Language was not set successfully.": {
+    "en": "Language was not set successfully",
+    "es": "El idioma no se estableció correctamente",
+    "fr": "La langue n'a pas été définie avec succès"
+  },
+  "Language set successfully!": {
+      "en": "Language was set successfully!",
+      "es": "¡El idioma se estableció correctamente!",
+      "fr": "La langue a été définie avec succès!"
+  },
+  "Thank you for picking me!": {
+    "en": "Thank you for picking me!",
+    "es": "¡Gracias por elegirme!",
+    "fr": "Merci de m'avoir choisi!"
+  },
+  "To get started, please set your server's language if this is not already accurate!": {
+    "en": "To get started, please set your server's language if this is not already accurate!",
+    "es": "Para empezar, ¡por favor establece el idioma de tu servidor si no es correcto!",
+    "fr": "Pour commencer, veuillez définir la langue de votre serveur si ce n'est pas déjà le cas!"
+  },
+  "Understand me better now?": {
+    "en": "Understand me better now?",
+    "es": "¿Me entiendes mejor ahora?",
+    "fr": "Me comprenez-vous mieux maintenant?"
+  },
+  "Locale": {
+    "en": "Locale",
+    "es": "Idioma",
+    "fr": "Langue"
+  },
+  "Invalid User": {
+    "en": "Invalid User",
+    "es": "Usuario inválido",
+    "fr": "Utilisateur invalide"
+  },
+  "You can't send money to yourself.": {
+    "en": "You can't send money to yourself.",
+    "es": "No puedes enviarte dinero a ti mismo.",
+    "fr": "Vous ne pouvez pas vous envoyer d'argent."
+  },
+  "You can't send money to a bot.": {
+    "en": "You can't send money to a bot.",
+    "es": "No puedes enviar dinero a un bot.",
+    "fr": "Vous ne pouvez pas envoyer d'argent à un bot."
+  },
+  "Money Sent": {
+    "en": "Money Sent",
+    "es": "Dinero enviado",
+    "fr": "Argent envoy"
+  },
+  "Successfully sent %s coins to %s.": {
+    "en": "Successfully sent %s coins to %s.",
+    "es": "Se enviaron %s monedas a %s con éxito.",
+    "fr": "Envoyé avec succès %s pièces à %s."
+  },
+  "Insufficient Funds": {
+    "en": "Insufficient Funds",
+    "es": "Fondos insuficientes",
+    "fr": "Fonds insuffisants"
+  },
+  "You don't have enough money to send that amount.": {
+    "en": "You don't have enough money to send that amount.",
+    "es": "No tienes suficiente dinero para enviar esa cantidad.",
+    "fr": "Vous n'avez pas assez d'argent pour envoyer ce montant."
+  },
+  "Money not Sent": {
+    "en": "Money not Sent",
+    "es": "Dinero no enviado",
+    "fr": "Argent non envoyé"
+  },
+  "Something went wrong and the money was not sent.": {
+    "en": "Something went wrong and the money was not sent.",
+    "es": "Algo salió mal y el dinero no se envió.",
+    "fr": "Quelque chose s'est mal passé et l'argent n'a pas été envoyé."
+  },
+  "You have received %s coins from %s.": {
+    "en": "You have received %s coins from %s.",
+    "es": "Has recibido %s monedas de %s.",
+    "fr": "Vous avez reçu %s pièces de %s."
+  },
+  "Money Received": {
+    "en": "Money Received",
+    "es": "Dinero recibido",
+    "fr": "Argent reçu"
+  },
+  "Job Created!": {
+    "en": "Job Created!",
+    "es": "¡Trabajo creado!",
+    "fr": "Emploi créé!"
+  },
+  "That job does not exist.": {
+    "en": "That job does not exist.",
+    "es": "Ese trabajo no existe.",
+    "fr": "Cet emploi n'existe pas."
+  },
+  "Unfortunately, multi-job support is not yet implemented.": {
+    "en": "Unfortunately, multi-job support is not yet implemented.",
+    "es": "Desafortunadamente, el soporte multiempleo aún no está implementado.",
+    "fr": "Malheureusement, le support multi-emploi n'est pas encore implémenté."
+  },
+  "You already have a job." : {
+    "en": "You already have a job.",
+    "es": "Ya tienes un trabajo.",
+    "fr": "Vous avez déjà un emploi."
+  },
+  "Success!": {
+    "en": "Success!",
+    "es": "¡Éxito!",
+    "fr": "Succès!"
+  },
+  "The multijob rule has been set to %s.": {
+    "en": "The multijob rule has been set to %s.",
+    "es": "La regla de multiempleo se ha establecido en %s.",
+    "fr": "La règle multi-emploi a été définie sur %s."
+  },
+  "The multijob rule could not be set to %s.": {
+    "en": "The multijob rule could not be set to %s.",
+    "es": "La regla de multiempleo no se pudo establecer en %s.",
+    "fr": "La règle multi-emploi n'a pas pu être définie sur %s."
+  },
+  "Error!": {
+    "en": "Error!",
+    "es": "¡Error!",
+    "fr": "Erreur!"
+  },
+  "True": {
+    "en": "True",
+    "es": "Verdadero",
+    "fr": "Vrai"
+  },
+  "False": {
+    "en": "False",
+    "es": "Falso",
+    "fr": "Faux"
+  },
+  "Uh uh, something went wrong!": {
+    "en": "Uh uh, something went wrong!",
+    "es": "¡Uh uh, algo salió mal!",
+    "fr": "Uh uh, quelque chose s'est mal passé!"
+  },
+  "Job Updated!": {
+    "en": "Job Updated!",
+    "es": "¡Trabajo actualizado!",
+    "fr": "Emploi mis à jour!"
+  },
+  "Your application to join this job has been sent!": {
+    "en": "Your application to join this job has been sent!",
+    "es": "¡Tu solicitud para unirte a este trabajo ha sido enviada!",
+    "fr": "Votre candidature pour rejoindre cet emploi a été envoyée!"
+  },
+  "Job Request": {
+    "en": "Job Request",
+    "es": "Solicitud de trabajo",
+    "fr": "Demande d'emploi"
+  },
+  "<@%s> is requesting access to a job.": {
+    "en": "<@%s> is requesting access to a job.",
+    "es": "<@%s> está solicitando acceso a un trabajo.",
+    "fr": "<@%s> demande l'accès à un emploi."
+  },
+  "Approve?": {
+    "en": "Approve?",
+    "es": "¿Aprobar?",
+    "fr": "Approuver?"
+  },
+  "React with %s to approve the request.": {
+    "en": "React with %s to approve the request.",
+    "es": "Reacciona con %s para aprobar la solicitud.",
+    "fr": "Réagissez avec %s pour approuver la demande."
+  },
+  "Job Requirement Channel Set!": {
+    "en": "Job Requirement Channel Set!",
+    "es": "¡Canal de requisitos de trabajo establecido!",
+    "fr": "Canal de requisitos de trabajo establecido!"
+  },
+  "The channel for job requirements requests has been set to %s": {
+    "en": "The channel for job requirements requests has been set to %s",
+    "es": "El canal para las solicitudes de requisitos de trabajo se ha establecido en %s",
+    "fr": "Le canal pour les demandes de conditions d'emploi a été défini sur %s"
+  },
+  "Job Requirement Channel Not Set!": {
+    "en": "Job Requirement Channel Not Set!",
+    "es": "¡Canal de requisitos de trabajo no establecido!",
+    "fr": "Canal de requisitos de trabajo no establecido!"
+  },
+  "An error occurred while setting the job requirement channel. Please try again.": {
+    "en": "An error occurred while setting the job requirement channel. Please try again.",
+    "es": "Se produjo un error al establecer el canal de requisitos de trabajo. Por favor, inténtalo de nuevo.",
+    "fr": "Une erreur s'est produite lors de la définition du canal de conditions d'emploi. Veuillez réessayer."
+  },
+  "Invalid Channel Type!" : {
+    "en": "Invalid Channel Type!",
+    "es": "¡Tipo de canal inválido!",
+    "fr": "Type de canal invalide!"
+  },
+  "The channel must be a text channel.": {
+    "en": "The channel must be a text channel.",
+    "es": "El canal debe ser un canal de texto.",
+    "fr": "Le canal doit être un canal de texte."
+  },
+  "We couldn't send your application to join this job.": {
+    "en": "We couldn't send your application to join this job.",
+    "es": "No pudimos enviar tu solicitud para unirte a este trabajo.",
+    "fr": "Nous n'avons pas pu envoyer votre candidature pour rejoindre cet emploi."
+  },
+  "Have the admins set up the job requests system properly?": {
+    "en": "Have the admins set up the job requests system properly?",
+    "es": "¿Los administradores han configurado correctamente el sistema de solicitudes de trabajo?",
+    "fr": "Les administrateurs ont-ils correctement configuré le système de demandes d'emploi?"
+  },
+  "Monday": {
+    "en": "Monday",
+    "es": "Lunes",
+    "fr": "Lundi"
+  },
+  "Tuesday": {
+      "en": "Tuesday",
+      "es": "Martes",
+      "fr": "Mardi"
+  },
+  "Wednesday": {
+      "en": "Wednesday",
+      "es": "Miércoles",
+      "fr": "Mercredi"
+  },
+  "Thursday": {
+      "en": "Thursday",
+      "es": "Jueves",
+      "fr": "Jeudi"
+  },
+  "Friday": {
+      "en": "Friday",
+      "es": "Viernes",
+      "fr": "Vendredi"
+  },
+  "Saturday": {
+      "en": "Saturday",
+      "es": "Sábado",
+      "fr": "Samedi"
+  },
+  "Sunday": {
+      "en": "Sunday",
+      "es": "Domingo",
+      "fr": "Dimanche"
+  },
+  "Payday has been set to %s." : {
+    "en": "Payday has been set to %s.",
+    "es": "El día de pago se ha establecido en %s.",
+    "fr": "Le jour de paie a été fixé à %s."
+  },
+  "! WORLD-WIDE LEADERBOARD !": {
+    "en": "! WORLD-WIDE LEADERBOARD !",
+    "es": "! CLASIFICACIÓN MUNDIAL !",
+    "fr": "! CLASSEMENT MONDIAL !"
+  },
+  "Payday": {
+    "en": "payday",
+    "es": "pago",
+    "fr": "paie"
+  },
+  "The admins haven't set a payday yet.": {
+    "en": "The admins haven't set a payday yet.",
+    "es": "Los administradores aún no han establecido un día de pago.",
+    "fr": "Les administrateurs n'ont pas encore fixé de jour de paie."
+  },
+  "You should remind them to set one by running `/admin payday`": {
+    "en": "You should remind them to set one by running `/admin payday`",
+    "es": "Deberías recordarles que establezcan uno ejecutando `/modo pagan`",
+    "fr": "Vous devriez leur rappeler d'en fixer un en exécutant `/mod payé`"
+  },
+  "Run `/admin language` to set your server's language." : {
+    "en": "Run `/admin language` to set your server's language.",
+    "es": "Ejecuta `/modo idioma` para establecer el idioma de tu servidor.",
+    "fr": "Exécutez `/mod langue` pour définir la langue de votre serveur."
+  },
+  "How to set your language": {
+    "en": "How to set your language",
+    "es": "Cómo establecer tu idioma",
+    "fr": "Comment définir votre langue"
+  },
+  "Set your payday": {
+    "en": "Set your payday",
+    "es": "Establece tu día de pago",
+    "fr": "Définissez votre jour de paie"
+  },
+  "I am an economy bot, and we use a payday. Run `/admin payday` to set your server's payday! It is NOT set by default." : {
+    "en": "I am an economy bot, and we use a payday. Run `/admin payday` to set your server's payday! It is NOT set by default.",
+    "es": "Soy un bot de economía, y usamos un día de pago. ¡Ejecuta `/modo pagan` para establecer el día de pago de tu servidor! NO se establece por defecto.",
+    "fr": "Je suis un bot d'économie, et nous utilisons un jour de paie. Exécutez `/mod payé` pour définir le jour de paie de votre serveur! Il n'est PAS défini par défaut."
+  },
+  "It's payday! Everyone pinged has been paid." : {
+    "en": "It's payday! Everyone pinged has been paid.",
+    "es": "¡Es día de pago! Todos los mencionados han sido pagados.",
+    "fr": "C'est le jour de paie! Tout le monde a été payé."
+  },
+  "No one was pinged because no one has a job." : {
+    "en": "No one was pinged because no one has a job.",
+    "es": "Nadie fue mencionado porque nadie tiene un trabajo.",
+    "fr": "Personne n'a été mentionné car personne n'a d'emploi."
+  },
+  "Ping List: " : {
+    "en": "Ping List: ",
+    "es": "Lista de menciones: ",
+    "fr": "Liste de ping: "
+  },
+  "I don't have permission to assign you this role :( Make sure the role's position is lower than mine!" : {
+    "en": "I don't have permission to assign you this role :( Make sure the role's position is lower than mine!",
+    "es": "No tengo permiso para asignarte este rol :( ¡Asegúrate de que la posición del rol sea inferior a la mía!",
+    "fr": "Je n'ai pas la permission de vous attribuer ce rôle :( Assurez-vous que la position du rôle est inférieure à la mienne!"
+  },
+  "You don't have the required permissions to run this command." : {
+    "en": "You don't have the required permissions to run this command.",
+    "es": "No tienes los permisos necesarios para ejecutar este comando.",
+    "fr": "Vous n'avez pas les autorisations requises pour exécuter cette commande."
+  },
+  "You don't have the required role to run this command." : {
+    "en": "You don't have the required role to run this command.",
+    "es": "No tienes el rol necesario para ejecutar este comando.",
+    "fr": "Vous n'avez pas le rôle requis pour exécuter cette commande."
+  },
+  "I don't have the required permissions to run this command!" : {
+    "en": "I don't have the required permissions to run this command!",
+    "es": "¡No tengo los permisos necesarios para ejecutar este comando!",
+    "fr": "Je n'ai pas les autorisations requises pour exécuter cette commande!"
+  },
+  "This command can only be run in DMs.": {
+    "en": "This command can only be run in DMs.",
+    "es": "Este comando solo se puede ejecutar en mensajes directos.",
+    "fr": "Cette commande ne peut être exécutée que dans les DM."
+  },
+  "This command can only be run in a guild." : {
+    "en": "This command can only be run in a guild.",
+    "es": "Este comando solo se puede ejecutar en un servidor.",
+    "fr": "Cette commande ne peut être exécut ée que dans une guilde."
+  },
+  "This command can only be run in a NSFW channel.": {
+    "en": "This command can only be run in a NSFW channel.",
+    "es": "Este comando solo se puede ejecutar en un canal NSFW.",
+    "fr": "Cette commande ne peut être exécutée que dans un canal NSFW."
+  },
+  "You are not the owner of this bot.": {
+    "en": "You are not the owner of this bot.",
+    "es": "No eres el propietario de este bot.",
+    "fr": "Vous n'êtes pas le propriétaire de ce bot."
+  },
+  "You have %s seconds left before you can run this command again.": {
+    "en": "You have %s seconds left before you can run this command again.",
+    "es": "Te quedan %s segundos antes de poder ejecutar este comando de nuevo.",
+    "fr": "Il vous reste %s secondes avant de pouvoir exécuter à nouveau cette commande."
+  },
+  "This command can only be run by bots.": {
+    "en": "This command can only be run by bots.",
+    "es": "Este comando solo puede ser ejecutado por bots.",
+    "fr": "Cette commande ne peut être exécutée que par des bots."
+  },
+  "We're missing some needed information to run this command!": {
+    "en": "We're missing some needed information to run this command!",
+    "es": "¡Nos falta información necesaria para ejecutar este comando!",
+    "fr": "Nous manquons d'informations nécessaires pour exécuter cette commande!"
+  },
+  "Invalid information to run this command!": {
+    "en": "Invalid information to run this command!",
+    "es": "¡Información inválida para ejecutar este comando!",
+    "fr": "Informations invalides pour exécuter cette commande!"
+  },
+  "You need to attach a file to run this command.": {
+    "en": "You need to attach a file to run this command.",
+    "es": "Necesitas adjuntar un archivo para ejecutar este comando.",
+    "fr": "Vous devez joindre un fichier pour exécuter cette commande."
+  },
+  "There was an error with the request." : {
+    "en": "There was an error with the request.",
+    "es": "Hubo un error con la solicitud.",
+    "fr": "Une erreur s'est produite avec la demande."
+  },
+  "An unknown error occured :( Please try again later when the issue is resolved.": {
+    "en": "An unknown error occured :( Please try again later when the issue is resolved.",
+    "es": "Ocurrió un error desconocido :( Por favor, inténtalo de nuevo más tarde cuando se resuelva el problema.",
+    "fr": "Une erreur inconnue s'est produite :( Veuillez réessayer plus tard lorsque le problème sera résolu."
+  },
+  "We can't do that. Is this job already created?": {
+    "en": "We can't do that. Is this job already created?",
+    "es": "No podemos hacer eso. ¿Este trabajo ya está creado?",
+    "fr": "Nous ne pouvons pas faire ça. Cet emploi est-il déjà créé?"
+  },
+  "These are the jobs you can potentially get.": {
+    "en": "These are the jobs you can potentially get.",
+    "es": "Estos son los trabajos que potencialmente puedes obtener.",
+    "fr": "Ce sont les emplois que vous pouvez potentiellement obtenir."
+  },
+  "Jobs Available": {
+    "en": "Jobs Available",
+    "es": "Trabajos disponibles",
+    "fr": "Emplois disponibles"
+  },
+  "(Officer Role)": {
+    "en": "(Officer Role)",
+    "es": "(Rol de Oficial)",
+    "fr": "(Rôle d'officier)"
+  },
+  "(Restricted Job)": {
+    "en": "(Restricted Job)",
+    "es": "(Trabajo restringido)",
+    "fr": "(Emploi restreint)"
+  },
+  "The user does not have enough money to be fined that amount.": {
+    "en": "The user does not have enough money to be fined that amount.",
+    "es": "El usuario no tiene suficiente dinero para ser multado por esa cantidad.",
+    "fr": "L'utilisateur n'a pas assez d'argent pour être condamné à cette amende."
+  },
+  "The user has been fined %s%s." : {
+    "en": "The user has been fined %s%s.",
+    "es": "El usuario ha sido multado con %s%s.",
+    "fr": "L'utilisateur a été condamné à %s%s."
+  }
+}

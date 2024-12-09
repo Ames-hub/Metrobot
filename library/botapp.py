@@ -19,7 +19,7 @@ TOKEN = keys.decrypt(var.get('token'))
 
 botapp = lightbulb.BotApp(
     token=TOKEN,
-    intents=hikari.Intents.GUILD_MESSAGE_REACTIONS
+    intents=hikari.Intents.GUILD_MESSAGE_REACTIONS + hikari.Intents.GUILDS
 )
 tasks.load(botapp)
 

@@ -4,3 +4,5 @@ settings.json
 library/private.key
 logs
 /.idea
+.env
+documentation/.$roadmap.drawio.bkp
