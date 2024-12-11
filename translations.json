@@ -394,10 +394,10 @@
     "es": "Ocurrió un error desconocido :( Por favor, inténtalo de nuevo más tarde cuando se resuelva el problema.",
     "fr": "Une erreur inconnue s'est produite :( Veuillez réessayer plus tard lorsque le problème sera résolu."
   },
-  "We can't do that. Is this job already created?": {
-    "en": "We can't do that. Is this job already created?",
-    "es": "No podemos hacer eso. ¿Este trabajo ya está creado?",
-    "fr": "Nous ne pouvons pas faire ça. Cet emploi est-il déjà créé?"
+  "We couldn't do that. Is this job already created?": {
+    "en": "We couldn't do that. Is this job already created?",
+    "es": "No pudimos hacer eso. ¿Este trabajo ya está creado?",
+    "fr": "Nous n'avons pas pu faire cela. Cet emploi est-il déjà créé?"
   },
   "These are the jobs you can potentially get.": {
     "en": "These are the jobs you can potentially get.",
@@ -523,5 +523,25 @@
     "en": "You are unemployed.",
     "es": "Estás desempleado.",
     "fr": "Vous êtes au chômage."
+  },
+  "Job Updated!<br>Note: Only the owner can set salaries, so the salary was defaulted to 0.": {
+    "en": "Job Updated!<br>Note: Only the owner can set salaries, so the salary was defaulted to 0.",
+    "es": "¡Trabajo actualizado!<br>Nota: Solo el propietario puede establecer salarios, por lo que el salario se estableció en 0.",
+    "fr": "Emploi mis à jour!<br>Remarque: Seul le propriétaire peut fixer les salaires, le salaire a donc été défini par défaut à 0."
+  },
+  "The permissions on who can set salaries has been updated.": {
+    "en": "The permissions on who can set salaries has been updated.",
+    "es": "Se han actualizado los permisos sobre quién puede establecer salarios.",
+    "fr": "Les autorisations sur qui peut fixer les salaires ont été mises à jour."
+  },
+  "Something went wrong. Please try again.": {
+    "en": "Something went wrong. Please try again.",
+    "es": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "fr": "Quelque chose s'est mal passé. Veuillez réessayer."
+  },
+  "You are not the owner of this server, so you cannot change this setting.": {
+    "en": "You are not the owner of this server, so you cannot change this setting.",
+    "es": "No eres el propietario de este servidor, por lo que no puedes cambiar esta configuración.",
+    "fr": "Vous n'êtes pas le propriétaire de ce serveur, vous ne pouvez donc pas modifier ce paramètre."
   }
 }

@@ -270,6 +270,10 @@ class ConfPostgreSQL:
                 "guild_id": "BIGINT NOT NULL PRIMARY KEY",
                 "allowed": "BOOLEAN NOT NULL DEFAULT FALSE",
             },
+            "owner_set_salary_guilds": {
+                "guild_id": "BIGINT NOT NULL PRIMARY KEY",
+                "allowed": "BOOLEAN NOT NULL DEFAULT FALSE",
+            },
             "user_jobs": {
                 "started_timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
                 "user_id": "BIGINT NOT NULL PRIMARY KEY references user_data(user_id)",
@@ -603,7 +607,7 @@ class PostgreSQL:
         return {user_id: balance for user_id, balance in data}
 
     @staticmethod
-    def list_guilds():
+    def list_guilds() -> list:
         """
         List all the guilds in the database.
         """
@@ -994,6 +998,36 @@ class PostgreSQL:
             self.lang = None
             self.translations_file = "translations.json"
             self.translations = None
+
+        def set_owner_set_salary_only(self, status) -> bool:
+            """
+            Set if the owner of the guild has decided that only he can set salaries for job roles.
+            :param status: The status to set.
+            """
+            try:
+                with ConfPostgreSQL.get_connection() as conn:
+                    cur = conn.cursor()
+                    cur.execute('''
+                        INSERT INTO owner_set_salary_guilds (guild_id, allowed)
+                        VALUES (%s, %s)
+                        ON CONFLICT (guild_id) DO UPDATE SET allowed = %s;
+                    ''', (self.guild_id, status, status))
+                    conn.commit()
+                    return True
+            except psycopg2.errors.OperationalError:
+                return False
+
+        def get_owner_set_salary_only(self):
+            """
+            Gets if the owner of the guild has decided that only he can set salaries for job roles.
+            :return:
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT allowed FROM owner_set_salary_guilds WHERE guild_id = %s;', (self.guild_id,))
+                data = cur.fetchone()
+
+            return data[0] if data is not None else False
 
         def get_known_members(self):
             """

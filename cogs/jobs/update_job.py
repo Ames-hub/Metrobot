@@ -96,6 +96,12 @@ async def command(ctx: lightbulb.SlashContext, is_officer_role:bool, jobrole:hik
     guild_pg = PostgreSQL.guild(ctx.guild_id)
     guild_pg.ensure_guild_exists()
 
+    do_prompt_not_owner = False
+    if guild_pg.get_owner_set_salary_only():
+        if ctx.get_guild().owner_id != ctx.author.id:
+            salary = 0
+            do_prompt_not_owner = True
+
     success = guild_pg.update_job_role(
         role_id=jobrole.id,
         is_officer_role=is_officer_role,
@@ -104,6 +110,13 @@ async def command(ctx: lightbulb.SlashContext, is_officer_role:bool, jobrole:hik
     )
 
     if success is True:
+        if do_prompt_not_owner:
+            await ctx.respond(
+                content=localize("Job Updated!<br>"
+                                 "Note: Only the owner can set salaries, so the salary was defaulted to 0."),
+                flags=hikari.MessageFlag.EPHEMERAL
+            )
+            return
         await ctx.respond(
             content=localize("Job Updated!"),
             flags=hikari.MessageFlag.EPHEMERAL

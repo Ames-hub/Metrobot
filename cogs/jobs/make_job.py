@@ -35,7 +35,7 @@ import hikari
         "fr": "Le salaire du travail."
     },
     type=hikari.OptionType.INTEGER,
-    required=True
+    required=True,
 )
 @lightbulb.option(
     name="is_officer_role",
@@ -96,6 +96,12 @@ async def command(ctx: lightbulb.SlashContext, is_officer_role:bool, jobrole:hik
     guild_pg = PostgreSQL.guild(ctx.guild_id)
     guild_pg.ensure_guild_exists()
 
+    do_prompt_not_owner = False
+    if guild_pg.get_owner_set_salary_only():
+        if ctx.get_guild().owner_id != ctx.author.id:
+            salary = 0
+            do_prompt_not_owner = True
+
     success = guild_pg.add_job_role(
         role_id=int(jobrole.id),
         is_officer_role=bool(is_officer_role),
@@ -104,10 +110,18 @@ async def command(ctx: lightbulb.SlashContext, is_officer_role:bool, jobrole:hik
     )
 
     if success:
-        await ctx.respond(
-            content=localize("Job Created!"),
-            flags=hikari.MessageFlag.EPHEMERAL
-        )
+        if do_prompt_not_owner:
+            await ctx.respond(
+                content=localize("Job Created!<br>"
+                                 "Note: Only the owner can set salaries, so the salary was defaulted to 0."),
+                flags=hikari.MessageFlag.EPHEMERAL
+            )
+            return
+        else:
+            await ctx.respond(
+                content=localize("Job Created!"),
+                flags=hikari.MessageFlag.EPHEMERAL
+            )
     else:
         await ctx.respond(
             content=localize("We couldn't do that. Is this job already created?"),
