@@ -4,7 +4,7 @@ import lightbulb
 import hikari
 
 @botapp.command
-@lightbulb.app_command_permissions(dm_enabled=False)
+@lightbulb.app_command_permissions(dm_enabled=True)
 @lightbulb.add_cooldown(bucket=lightbulb.buckets.GuildBucket, length=5, uses=1)
 @lightbulb.command(
     name="balance",

@@ -1,5 +1,6 @@
 from library.encryption import encryption
 import subprocess
+import datetime
 import psycopg2
 import inspect
 import logging
@@ -305,6 +306,15 @@ class ConfPostgreSQL:
                 "job_id": "BIGINT NOT NULL",
                 "timestamp": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
             },
+            "subscriptions": {
+                "sub_id": "SERIAL PRIMARY KEY",
+                "amount": "BIGINT NOT NULL",
+                "interval": "BIGINT NOT NULL",
+                "target_user": "BIGINT NOT NULL",
+                "paying_user_id": "BIGINT NOT NULL",
+                "last_payment": "BIGINT DEFAULT extract(epoch from now())::BIGINT",
+                "starting_guild_id": "BIGINT NOT NULL",
+            },
             "paydays": {
                 "guild_id": "BIGINT NOT NULL PRIMARY KEY",
                 "payday": "TEXT NOT NULL check(payday in ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))",
@@ -582,6 +592,7 @@ class bank:
         if self.owner_id == target_id:
             return -2
 
+        # Check if the user has enough money with "get balance", if they do, send the money. Else, return -1
         if self.get_balance() >= amount:
             self.modify_balance(amount, '-')
             PostgreSQL.user(target_id).bank.modify_balance(amount, '+')
@@ -618,10 +629,107 @@ class PostgreSQL:
 
         return [guild_id for guild_id, in data]
 
+    @staticmethod
+    def list_subscriptions() -> list:
+        """
+        List all the subscriptions in the database.
+
+        :returns list: The subscriptions in the database.
+        :returns list > dict: format {id: int, paying_user_id: int, target_user: int, interval: int, amount: int, last_payment: POSIX, starting_guild_id: int}
+        """
+        with ConfPostgreSQL.get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute('SELECT * FROM subscriptions;')
+            data = cur.fetchall()
+
+        data_formatted = []
+        for sub in data:
+            data_formatted.append({
+                'id': sub[0],
+                'amount': sub[1],
+                'interval': sub[2],
+                'target_user': sub[3],
+                'paying_user_id': sub[4],
+                'last_payment': sub[5],
+                'starting_guild_id': sub[6]
+            })
+
+        return data_formatted
+
+    @staticmethod
+    def update_subscription_paid(sub_id:int) -> bool:
+        """
+        Update the last payment of a subscription.
+
+        :param sub_id: The ID of the subscription.
+        """
+        timenow = datetime.datetime.now().timestamp()
+        with ConfPostgreSQL.get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute('UPDATE subscriptions SET last_payment = %s WHERE sub_id = %s;', (timenow, sub_id))
+            conn.commit()
+        return True
+
+    # noinspection PyMethodMayBeStatic
     class user:
         def __init__(self, user_id: int):
             self.user_id = int(user_id)
             self.bank = bank(self.user_id)
+
+        def cancel_subscription(self, sub_id:int) -> bool:
+            """
+            Cancel a subscription.
+
+            :param sub_id: The ID of the subscription.
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('DELETE FROM subscriptions WHERE id = %s;', (sub_id,))
+                conn.commit()
+            return True
+
+        def list_subscriptions_by_id(self) -> dict:
+            """
+            List all the subscriptions for a user. (sending and receiving)
+
+            :returns list: The subscriptions for the user.
+            :returns list > dict: format {id: int, paying_user_id: int, target_user: int, interval: int, amount: int, last_payment: POSIX}
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT * FROM subscriptions WHERE paying_user_id = %s OR target_user = %s;', (self.user_id, self.user_id))
+                data = cur.fetchall()
+
+            data_formatted = {}
+            for sub in data:
+                data_formatted[sub[0]] = {
+                    'sub_id': sub[0],
+                    'paying_user_id': sub[1],
+                    'target_user': sub[2],
+                    'interval': sub[3],
+                    'amount': sub[4],
+                    'last_payment': sub[5]
+                }
+
+            return data_formatted
+
+        def start_subscription(self, target_user: int, interval: int, amount: int, starting_guild_id: int) -> bool:
+            """
+            Start a subscription to send money to another user.
+
+            :param target_user: The ID of the user to send money to.
+            :param interval: The interval to send the money at.
+            :param amount: The amount of money to send.
+            :param starting_guild_id: The ID of the guild where the subscription started in.
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('''
+                    INSERT INTO subscriptions (paying_user_id, target_user, interval, amount, starting_guild_id)
+                    VALUES (%s, %s, %s, %s, %s);
+                ''', (int(self.user_id), int(target_user), int(interval), int(amount), int(starting_guild_id),))
+                conn.commit()
+            return True
 
         async def quit_job(self, guild_id) -> bool | int:
             """

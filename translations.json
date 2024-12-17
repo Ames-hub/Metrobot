@@ -149,10 +149,10 @@
     "es": "Falso",
     "fr": "Faux"
   },
-  "Uh uh, something went wrong!": {
-    "en": "Uh uh, something went wrong!",
-    "es": "¡Uh uh, algo salió mal!",
-    "fr": "Uh uh, quelque chose s'est mal passé!"
+  "Uh oh, something went wrong!": {
+    "en": "Uh oh, something went wrong!",
+    "es": "¡Oh oh, algo salió mal!",
+    "fr": "Oh oh, quelque chose s'est mal passé!"
   },
   "Job Updated!": {
     "en": "Job Updated!",
@@ -543,5 +543,100 @@
     "en": "You are not the owner of this server, so you cannot change this setting.",
     "es": "No eres el propietario de este servidor, por lo que no puedes cambiar esta configuración.",
     "fr": "Vous n'êtes pas le propriétaire de ce serveur, vous ne pouvez donc pas modifier ce paramètre."
+  },
+  "The interval must be at least 1 day.": {
+    "en": "The interval must be at least 1 day.",
+    "es": "El intervalo debe ser de al menos 1 día.",
+    "fr": "L'intervalle doit être d'au moins 1 jour."
+  },
+  "Invalid Interval": {
+    "en": "Invalid Interval",
+    "es": "Intervalo inválido",
+    "fr": "Intervalle invalide"
+  },
+  "Invalid Amount": {
+    "en": "Invalid Amount",
+    "es": "Cantidad inválida",
+    "fr": "Montant invalide"
+  },
+  "The amount must be at least 1.": {
+    "en": "The amount must be at least 1.",
+    "es": "La cantidad debe ser de al menos 1.",
+    "fr": "Le montant doit être d'au moins 1."
+  },
+  "You have started a subscription to send %s every %s days to %s." : {
+    "en": "You have started a subscription to send %s every %s days to %s.",
+    "es": "Has iniciado una suscripción para enviar %s cada %s días a %s.",
+    "fr": "Vous avez commencé un abonnement pour envoyer %s tous les %s jours à %s."
+  },
+  "Subscription Started": {
+    "en": "Subscription Started",
+    "es": "Suscripción iniciada",
+    "fr": "Abonnement commencé"
+  },
+  "Are you sure that's right?": {
+    "en": "Are you sure that's right?",
+    "es": "¿Estás seguro de que eso es correcto?",
+    "fr": "Êtes-vous sûr que c'est correct?"
+  },
+  "%s is quite a lot. Send in chat \"yes\" to confirm.": {
+    "en": "%s is quite a lot. Send in chat \"yes\" to confirm.",
+    "es": "%s es bastante. Envía en el chat \"sí\" para confirmar.",
+    "fr": "%s est assez. Envoyez dans le chat \"oui\" pour confirmer."
+  },
+  "The subscription has been cancelled.": {
+    "en": "The subscription has been cancelled.",
+    "es": "La suscripción ha sido cancelada.",
+    "fr": "L'abonnement a été annulé."
+  },
+  "The subscription does not exist, or you are not authorized to cancel it.": {
+    "en": "The subscription does not exist, or you are not authorized to cancel it.",
+    "es": "La suscripción no existe, o no estás autorizado para cancelarla.",
+    "fr": "L'abonnement n'existe pas, ou vous n'êtes pas autorisé à l'annuler."
+  },
+  "Subscription payment failed": {
+    "en": "Subscription payment failed.",
+    "es": "El pago de la suscripción falló.",
+    "fr": "Le paiement de l'abonnement a échoué."
+  },
+  "Not enough money": {
+    "en": "Not enough money",
+    "es": "Dinero insuficiente",
+    "fr": "Pas assez d'argent"
+  },
+  "The subscription with the ID %s couldn't be paid!": {
+    "en": "The subscription with the ID %s couldn't be paid!",
+    "es": "¡La suscripción con el ID %s no pudo ser pagada!",
+    "fr": "L'abonnement avec l'ID %s n'a pas pu être payé!"
+  },
+  "The user %s doesn't have enough money to pay the subscription to %s.": {
+    "en": "The user %s doesn't have enough money to pay the subscription to %s.",
+    "es": "El usuario %s no tiene suficiente dinero para pagar la suscripción a %s.",
+    "fr": "L'utilisateur %s n'a pas assez d'argent pour payer l'abonnement à %s."
+  },
+  "The user has been given %s%s.": {
+    "en": "The user has been given %s%s.",
+    "es": "Se le ha dado al usuario %s%s.",
+    "fr": "L'utilisateur a reçu %s%s."
+  },
+  "Subscription Paid": {
+    "en": "Subscription Paid",
+    "es": "Suscripción pagada",
+    "fr": "Abonnement payé"
+  },
+  "The subscription between %s and %s was paid successfully (amount: %s).": {
+    "en": "The subscription between %s and %s was paid successfully (amount: %s)",
+    "es": "La suscripción entre %s y %s se pagó con éxito (cantidad: %s)",
+    "fr": "L'abonnement entre %s et %s a été payé avec succès (montant: %s)"
+  },
+  "How do I cancel my subscription?": {
+    "en": "How do I cancel my subscription?",
+    "es": "¿Cómo cancelo mi suscripción?",
+    "fr": "Comment annuler mon abonnement?"
+  },
+  "To cancel your subscription, use the command<br>`/subscriptions cancel subscription_id:%s`.": {
+    "en": "To cancel your subscription, use the command<br>`/subscriptions cancel subscription_id:%s`.",
+    "es": "Para cancelar tu suscripción, usa el comando<br>`/suscripciones cancelar id_de_suscripción:%s`.",
+    "fr": "Pour annuler votre abonnement, utilisez la commande<br>`/abonnements annuler id_abonnement:%s`."
   }
 }

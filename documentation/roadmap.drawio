@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
   <diagram id="6a731a19-8d31-9384-78a2-239565b7b9f0" name="Page-1">
-    <mxGraphModel dx="548" dy="538" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="950" background="none" math="0" shadow="0">
+    <mxGraphModel dx="454" dy="446" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="950" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -99,10 +99,10 @@
         <mxCell id="gGFK8T7wmAAdtYbkLCOd-1813" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gGFK8T7wmAAdtYbkLCOd-1809" target="gGFK8T7wmAAdtYbkLCOd-1812" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="gGFK8T7wmAAdtYbkLCOd-1809" value="Agreed-upon&lt;div&gt;Subscriptions system&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="gGFK8T7wmAAdtYbkLCOd-1809" value="Agreed-upon&lt;div&gt;Subscriptions system&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="650" y="20" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="gGFK8T7wmAAdtYbkLCOd-1812" value="Either party can cancel the subscription" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="gGFK8T7wmAAdtYbkLCOd-1812" value="Either party can cancel the subscription" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="850" y="20" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="gGFK8T7wmAAdtYbkLCOd-1816" value="Admins&lt;div&gt;can fine users&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
@@ -205,19 +205,13 @@
         <mxCell id="e1mpN5uGEn9WAKahAHeY-17" value="Admin blocked" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" parent="1" vertex="1">
           <mxGeometry x="570" y="230" width="90" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="WRyoIzn_RYOp8WRG1qom-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WRyoIzn_RYOp8WRG1qom-1" target="WRyoIzn_RYOp8WRG1qom-2" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="WRyoIzn_RYOp8WRG1qom-1" value="User can decide if they&#39;re french or spanish&lt;div&gt;ID CARD SYSTEM&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="600" y="550" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="WRyoIzn_RYOp8WRG1qom-2" value="Tie in to localizer, to be local to user and not ONLY to guild" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="800" y="550" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="WRyoIzn_RYOp8WRG1qom-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;" parent="1" source="WRyoIzn_RYOp8WRG1qom-4" target="gGFK8T7wmAAdtYbkLCOd-1820" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Qs1TjimGDXPNRhHnosGS-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;" edge="1" parent="1" source="WRyoIzn_RYOp8WRG1qom-4" target="gGFK8T7wmAAdtYbkLCOd-1829">
+        <mxCell id="Qs1TjimGDXPNRhHnosGS-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;" parent="1" source="WRyoIzn_RYOp8WRG1qom-4" target="gGFK8T7wmAAdtYbkLCOd-1829" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="200" y="570" />
@@ -258,14 +252,14 @@
         <mxCell id="WRyoIzn_RYOp8WRG1qom-16" value="Requested specific feature by client." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="600" y="610" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="Qs1TjimGDXPNRhHnosGS-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="Qs1TjimGDXPNRhHnosGS-1" target="gGFK8T7wmAAdtYbkLCOd-1829">
+        <mxCell id="Qs1TjimGDXPNRhHnosGS-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="Qs1TjimGDXPNRhHnosGS-1" target="gGFK8T7wmAAdtYbkLCOd-1829" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="150" y="795" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Qs1TjimGDXPNRhHnosGS-1" value="Any user" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Qs1TjimGDXPNRhHnosGS-1" value="Any user" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="120" y="810" width="70" height="30" as="geometry" />
         </mxCell>
       </root>

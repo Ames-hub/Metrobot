@@ -43,6 +43,7 @@ botapp.load_extensions_from("cogs/tasks")
 botapp.load_extensions_from("cogs/admin")
 botapp.load_extensions_from("cogs/other")
 botapp.load_extensions_from("cogs/money_cmds")
+botapp.load_extensions_from("cogs/subscriptions")
 botapp.load_extensions_from("cogs/jobs")
 
 if bool(os.environ.get("REVEAL_DB_PASS", False)) is True:

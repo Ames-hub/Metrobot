@@ -128,7 +128,7 @@ async def command(ctx: lightbulb.SlashContext, is_officer_role:bool, jobrole:hik
         )
     else:
         await ctx.respond(
-            content=localize("Uh uh, something went wrong!"),
+            content=localize("Uh oh, something went wrong!"),
             flags=hikari.MessageFlag.EPHEMERAL
         )
 
