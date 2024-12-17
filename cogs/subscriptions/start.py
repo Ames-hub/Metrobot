@@ -148,18 +148,40 @@ async def command(ctx: lightbulb.SlashContext, target_user:hikari.User, interval
             return
 
     # Starts tracking the subscription
-    user_pg.start_subscription(target_user.id, interval, amount, starting_guild_id=ctx.guild_id)
+    sub_id = user_pg.start_subscription(target_user.id, interval, amount, starting_guild_id=ctx.guild_id)
 
-    embed = hikari.Embed(
-        title=localize("Subscription Started"),
-        description=localize(
-            "You have started a subscription to send %s every %s days to %s.",
-            (amount, interval, target_user.username)
-        ),
-        color=hikari.Color(0x00FF00)
+    embed = (
+        hikari.Embed(
+            title=localize("Subscription Started | ID %s", (sub_id,)),
+            description=localize(
+                "You have started a subscription to send %s every %s days to %s.",
+                (amount, interval, target_user.username)
+            ),
+            color=hikari.Color(0x00FF00)
+        )
+        .add_field(
+            name=localize("How do I cancel my subscription?"),
+            value=localize("To cancel your subscription, use the command<br>`/subscriptions cancel subscription_id:%s`.", (sub_id,))
+        )
     )
 
     await ctx.respond(embed)
+
+    # Inform the other user
+    await target_user.send(
+        hikari.Embed(
+            title=localize("Subscription Started | ID %s", (sub_id,)),
+            description=localize(
+                "A subscription to receive %s every %s days from <@%s> has started.",
+                (amount, interval, ctx.author.id)
+            ),
+            color=hikari.Color(0x00FF00)
+        )
+        .add_field(
+            name=localize("How do I cancel my subscription?"),
+            value=localize("To cancel your subscription, use the command<br>`/subscriptions cancel subscription_id:%s`.", (sub_id,))
+        )
+    )
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(lightbulb.Plugin(__name__))

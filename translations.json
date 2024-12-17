@@ -569,10 +569,10 @@
     "es": "Has iniciado una suscripción para enviar %s cada %s días a %s.",
     "fr": "Vous avez commencé un abonnement pour envoyer %s tous les %s jours à %s."
   },
-  "Subscription Started": {
-    "en": "Subscription Started",
-    "es": "Suscripción iniciada",
-    "fr": "Abonnement commencé"
+  "Subscription Started | ID %s": {
+    "en": "Subscription Started | ID %s",
+    "es": "Suscripción iniciada | ID %s",
+    "fr": "Abonnement commencé | ID %s"
   },
   "Are you sure that's right?": {
     "en": "Are you sure that's right?",
@@ -638,5 +638,40 @@
     "en": "To cancel your subscription, use the command<br>`/subscriptions cancel subscription_id:%s`.",
     "es": "Para cancelar tu suscripción, usa el comando<br>`/suscripciones cancelar id_de_suscripción:%s`.",
     "fr": "Pour annuler votre abonnement, utilisez la commande<br>`/abonnements annuler id_abonnement:%s`."
+  },
+  "The subscription for %s%s between you and <@%s> has been cancelled.": {
+    "en": "The subscription for %s%s between you and <@%s> has been cancelled.",
+    "es": "La suscripción por %s%s entre tú y <@%s> ha sido cancelada.",
+    "fr": "L'abonnement pour %s%s entre vous et <@%s> a été annulé."
+  },
+  "A subscription to receive %s every %s days from <@%s> has started.": {
+    "en": "A subscription to receive %s every %s days from <@%s> has started.",
+    "es": "Se ha iniciado una suscripción para recibir %s cada %s días de <@%s>.",
+    "fr": "Un abonnement pour recevoir %s tous les %s jours de <@%s> a commencé."
+  },
+  "<@%s> is paying <@%s> %s%s<br>": {
+    "en": "<@%s> is paying <@%s> %s%s<br>",
+    "es": "<@%s> está pagando a <@%s> %s%s<br>",
+    "fr": "<@%s> paie <@%s> %s%s<br>"
+  },
+  "Subscription ID: %s<br>": {
+    "en": "Subscription ID: %s<br>",
+    "es": "ID de suscripción: %s<br>",
+    "fr": "ID d'abonnement: %s<br>"
+  },
+  "Subscriptions": {
+    "en": "Subscriptions",
+    "es": "Suscripciones",
+    "fr": "Abonnements"
+  },
+  "You have no subscriptions.": {
+    "en": "You have no subscriptions.",
+    "es": "No tienes suscripciones.",
+    "fr": "Vous n'avez pas d'abonnements."
+  },
+  "Subscription Cancelled": {
+    "en": "Subscription Cancelled",
+    "es": "Suscripción cancelada",
+    "fr": "Abonnement annulé"
   }
 }

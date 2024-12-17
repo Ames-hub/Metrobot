@@ -54,9 +54,30 @@ async def command(ctx: lightbulb.SlashContext, subscription_id:int) -> None:
     # Ensures the subscription exists and is owned by the user\
     sub_list = user_pg.list_subscriptions_by_id()
     for sub_id in sub_list:
-        if sub_id == subscription_id:
+        sub = sub_list[sub_id]
+        if sub['sub_id'] == subscription_id:
             user_pg.cancel_subscription(subscription_id)
             await ctx.respond(localize("The subscription has been cancelled."))
+
+            # Inform the other user that the subscription has been cancelled
+            target_user_id = sub['target_user']
+            paying_user_id = sub['paying_user_id']
+
+            inform_who = paying_user_id if int(target_user_id) == int(ctx.author.id) else target_user_id
+
+            if inform_who is not None:
+                informed_user = await ctx.bot.rest.fetch_user(inform_who)
+                await informed_user.send(
+                    hikari.Embed(
+                        title=localize("Subscription Cancelled"),
+                        description=localize(
+                            "The subscription for %s%s between you and <@%s> has been cancelled.",
+                            variables=(localize("$"), sub['amount'], int(target_user_id if paying_user_id == ctx.author.id else paying_user_id))
+                        ),
+                        color=0x00FF00
+                    )
+                )
+
             return
     else:
         await ctx.respond(localize("The subscription does not exist, or you are not authorized to cancel it."))

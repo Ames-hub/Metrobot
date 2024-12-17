@@ -684,7 +684,7 @@ class PostgreSQL:
             """
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
-                cur.execute('DELETE FROM subscriptions WHERE id = %s;', (sub_id,))
+                cur.execute('DELETE FROM subscriptions WHERE sub_id = %s;', (sub_id,))
                 conn.commit()
             return True
 
@@ -693,7 +693,7 @@ class PostgreSQL:
             List all the subscriptions for a user. (sending and receiving)
 
             :returns list: The subscriptions for the user.
-            :returns list > dict: format {id: int, paying_user_id: int, target_user: int, interval: int, amount: int, last_payment: POSIX}
+            :returns list > dict: format {sub_id: int, paying_user_id: int, target_user: int, interval: int, amount: int, last_payment: POSIX}
             """
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
@@ -704,16 +704,17 @@ class PostgreSQL:
             for sub in data:
                 data_formatted[sub[0]] = {
                     'sub_id': sub[0],
-                    'paying_user_id': sub[1],
-                    'target_user': sub[2],
-                    'interval': sub[3],
-                    'amount': sub[4],
-                    'last_payment': sub[5]
+                    'amount': sub[1],
+                    'interval': sub[2],
+                    'target_user': sub[3],
+                    'paying_user_id': sub[4],
+                    'last_payment': sub[5],
+                    'starting_guild_id': sub[6]
                 }
 
             return data_formatted
 
-        def start_subscription(self, target_user: int, interval: int, amount: int, starting_guild_id: int) -> bool:
+        def start_subscription(self, target_user: int, interval: int, amount: int, starting_guild_id: int) -> int:
             """
             Start a subscription to send money to another user.
 
@@ -721,15 +722,17 @@ class PostgreSQL:
             :param interval: The interval to send the money at.
             :param amount: The amount of money to send.
             :param starting_guild_id: The ID of the guild where the subscription started in.
+            :return: The ID of the created subscription.
             """
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
                 cur.execute('''
                     INSERT INTO subscriptions (paying_user_id, target_user, interval, amount, starting_guild_id)
-                    VALUES (%s, %s, %s, %s, %s);
+                    VALUES (%s, %s, %s, %s, %s) RETURNING sub_id;
                 ''', (int(self.user_id), int(target_user), int(interval), int(amount), int(starting_guild_id),))
+                sub_id = cur.fetchone()[0]
                 conn.commit()
-            return True
+            return sub_id
 
         async def quit_job(self, guild_id) -> bool | int:
             """
