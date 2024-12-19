@@ -673,5 +673,25 @@
     "en": "Subscription Cancelled",
     "es": "Suscripción cancelada",
     "fr": "Abonnement annulé"
+  },
+  "Fine Permissions": {
+    "en": "Fine Permissions",
+    "es": "Permisos de multa",
+    "fr": "Amendes"
+  },
+  "We have fetched the role with the ability to fine others.": {
+    "en": "We have fetched the role with the ability to fine others.",
+    "es": "Hemos obtenido el rol con la capacidad de multar a otros.",
+    "fr": "Nous avons récupéré le rôle avec la capacité d'amender les autres."
+  },
+  "Fine permissions have been set!": {
+    "en": "Fine permissions have been set!",
+    "es": "¡Se han establecido los permisos de multa!",
+    "fr": "Les amendes ont été fixées!"
+  },
+  "You do not have permission to fine users.": {
+    "en": "You do not have permission to fine users.",
+    "es": "No tienes permiso para multar a los usuarios.",
+    "fr": "Vous n'avez pas la permission d'amender les utilisateurs."
   }
 }

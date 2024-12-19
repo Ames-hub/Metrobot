@@ -41,9 +41,6 @@ import hikari
     required=True
 )
 @lightbulb.add_cooldown(bucket=lightbulb.buckets.UserBucket, length=5, uses=1)
-@lightbulb.add_checks(
-    lightbulb.has_guild_permissions(hikari.Permissions.ADMINISTRATOR)
-)
 @lightbulb.command(
     name="fine",
     name_localizations={
@@ -63,8 +60,22 @@ import hikari
 async def command(ctx: lightbulb.SlashContext, amount: int, user: hikari.User) -> None:
     target_pg = PostgreSQL.user(user.id)
     target_pg.ensure_user_exists()
-
     localize = PostgreSQL.guild(ctx.guild_id).localize
+
+    # Checks if the user has admin or a specific role
+    user_roles = ctx.member.get_roles()
+    permitted_role_id = PostgreSQL.guild(ctx.guild_id).get_fine_perms_role()
+    allowed = False
+    for role in user_roles:
+        if role.id == permitted_role_id:
+            allowed = True
+            break
+        elif hikari.Permissions.ADMINISTRATOR in role.permissions:
+            allowed = True
+            break
+
+    if not allowed:
+        await ctx.respond(localize("You do not have permission to fine users."))
 
     try:
         target_pg.bank.modify_balance(amount, operator="-")

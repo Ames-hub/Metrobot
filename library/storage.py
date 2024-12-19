@@ -318,6 +318,10 @@ class ConfPostgreSQL:
             "paydays": {
                 "guild_id": "BIGINT NOT NULL PRIMARY KEY",
                 "payday": "TEXT NOT NULL check(payday in ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))",
+            },
+            "role_fine_perms": {
+                "guild_id": "BIGINT NOT NULL PRIMARY KEY",
+                "role_id": "BIGINT NOT NULL",
             }
         }
 
@@ -1109,6 +1113,38 @@ class PostgreSQL:
             self.lang = None
             self.translations_file = "translations.json"
             self.translations = None
+
+        def set_fine_perms_as(self, role_id) -> bool:
+            """
+            Set the role that can fine users in the guild.
+
+            :param role_id: The ID of the role.
+            """
+            try:
+                with ConfPostgreSQL.get_connection() as conn:
+                    cur = conn.cursor()
+                    cur.execute('''
+                        INSERT INTO role_fine_perms (guild_id, role_id)
+                        VALUES (%s, %s)
+                        ON CONFLICT (guild_id) DO UPDATE SET role_id = %s;
+                    ''', (self.guild_id, role_id, role_id))
+                    conn.commit()
+                    return True
+            except psycopg2.errors.UniqueViolation:
+                return False
+
+        def get_fine_perms_role(self) -> int | None:
+            """
+            Get the role that can fine users in the guild.
+
+            :return: The ID of the role.
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT role_id FROM role_fine_perms WHERE guild_id = %s;', (self.guild_id,))
+                data = cur.fetchone()
+
+            return data[0] if data is not None else None
 
         def set_owner_set_salary_only(self, status) -> bool:
             """
