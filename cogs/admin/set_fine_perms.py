@@ -20,7 +20,7 @@ import hikari
         "es-ES": "A qué rol dar el permiso.",
         "fr": "Quel rôle donner la permission à."
     },
-    type=hikari.OptionType.USER,
+    type=hikari.OptionType.ROLE,
     required=True
 )
 @lightbulb.add_cooldown(bucket=lightbulb.buckets.UserBucket, length=5, uses=1)
