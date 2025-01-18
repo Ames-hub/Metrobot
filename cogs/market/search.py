@@ -19,6 +19,8 @@ import hikari
         "fr": "Quelle page du marché voir."
     },
     type=hikari.OptionType.INTEGER,
+    default=1,
+    min_value=1,
     required=False
 )
 @lightbulb.add_cooldown(bucket=lightbulb.buckets.UserBucket, length=3, uses=1)
@@ -39,7 +41,11 @@ import hikari
 )
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def command(ctx: lightbulb.SlashContext, page_numb:int) -> None:
-    pass  # I'm going to continue not confronting this for a bit. Good day
+    guild_pg = PostgreSQL.guild(ctx.guild_id)
+    localize = guild_pg.localize
+
+    # Each page is a division of 25 items.
+    guild_pg.market
 
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(lightbulb.Plugin(__name__))

@@ -15,7 +15,7 @@ logging.basicConfig(
 )
 
 keys = encryption('library/private.key')
-TOKEN = keys.decrypt(var.get('token'))
+TOKEN = keys.decrypt(var.get('token')) if bool(os.environ.get("USE_DEBUG_TOKEN", False)) is False else os.environ.get('debug_token')
 
 botapp = lightbulb.BotApp(
     token=TOKEN,

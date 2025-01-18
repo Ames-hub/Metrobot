@@ -32,7 +32,7 @@ async def command(ctx: lightbulb.SlashContext) -> None:
             title=localise("Balance | Your Bank"),
             description=localise(
                 "You have %s%s in your bank account.",
-                variables=(balance, localise("$"))
+                variables=(localise("$"), balance)
             ),
             colour=botapp.d["colourless"]
         )

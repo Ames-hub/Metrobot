@@ -21,6 +21,7 @@ keys = encryption(key_file='library/private.key')
 class dt:
     SETTINGS = {
         "token": None,
+        'debug_token': None,
         "db": {
             "host": None,
             "port": None,
@@ -242,15 +243,18 @@ class ConfPostgreSQL:
                 'quantity': 'BIGINT DEFAULT 0',
             },
             'items': {
-                'item_name': 'TEXT PRIMARY KEY',
+                'uuid': 'SERIAL PRIMARY KEY',
+                'guild_id': 'BIGINT DEFAULT NULL',
+                'item_name': 'TEXT NOT NULL',
                 'description': 'TEXT DEFAULT NULL',
                 # The levels are: 1 - Common, 2 - Uncommon, 3 - Rare, 4 - Epic, 5 - Legendary, 6 - Truly Unique
-                'rarity': 'INTEGER DEFAULT 1 check(rarity >= 1 and rarity <= 5)',
+                'rarity': 'INTEGER DEFAULT 1 CHECK (rarity >= 1 AND rarity <= 5)',
                 'value': 'BIGINT DEFAULT 0',
                 'tradable': 'BOOLEAN NOT NULL DEFAULT TRUE',
             },
             'items_in_shop': {
-                'item_name': 'TEXT PRIMARY KEY REFERENCES items(item_name)',
+                'item_uuid': 'INTEGER PRIMARY KEY NOT NULL REFERENCES items(uuid)',
+                'item_name': 'TEXT NOT NULL',
                 'stock': 'BIGINT DEFAULT 0',
             },
             'trade_market_items': {
@@ -358,7 +362,10 @@ class ConfPostgreSQL:
                 # If the table doesn't exist, create it with columns
                 else:
                     columns_str = ', '.join([f'{column_name} {column_properties}' for column_name, column_properties in columns.items()])
-                    cur.execute(f'CREATE TABLE {table_name} ({columns_str});')
+                    try:
+                        cur.execute(f'CREATE TABLE {table_name} ({columns_str});')
+                    except psycopg2.errors.InvalidTableDefinition:
+                        logging.error(f'Could not create table {table_name}.', exc_info=True)
 
             # Commit the changes
             conn.commit()
@@ -559,7 +566,7 @@ class bank:
             cur = conn.cursor()
             cur.execute('SELECT balance FROM user_bank WHERE user_id = %s;', (self.owner_id,))
             data = cur.fetchone()
-            return data[0] if data is not None else None
+            return data[0] if data is not None else 0
 
     def modify_balance(self, amount:int, operator:str) -> bool:
         """
@@ -597,7 +604,8 @@ class bank:
             return -2
 
         # Check if the user has enough money with "get balance", if they do, send the money. Else, return -1
-        if self.get_balance() >= amount:
+        cur_balance = self.get_balance()
+        if cur_balance >= amount:
             self.modify_balance(amount, '-')
             PostgreSQL.user(target_id).bank.modify_balance(amount, '+')
         else:
@@ -1106,6 +1114,38 @@ class PostgreSQL:
             else:
                 return None
 
+    class guild_market:
+        def __init__(self, guild_id):
+            self.guild_id = int(guild_id)
+
+        def list_market_items(self) -> dict:
+            """
+            List all the market items in the guild.
+
+            :return: The market items in the guild.
+            Formatted as {item_id, item_name, item_price, item_description}
+            """
+            with ConfPostgreSQL.get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT item_id, item_name, item_price, item_description FROM market_items WHERE guild_id = %s;', (self.guild_id,))
+                data = cur.fetchall()
+
+                # Get the stock of the items
+                cur.execute('SELECT * FROM items_in_shop WHERE guild_id = %s;', (self.guild_id,))
+                all_stock = cur.fetchone()
+
+            return_data = {}
+            for item in data:
+                return_data[item[0]] = {
+                    'item_id': item[0],
+                    'item_name': item[1],
+                    'item_price': item[2],
+                    'item_description': item[3],
+                    'stock': all_stock[item[0]] if all_stock is not None else 0
+                }
+
+            return return_data
+
     class guild:
         def __init__(self, guild_id):
             self.guild_id = int(guild_id)
@@ -1505,7 +1545,11 @@ class PostgreSQL:
                 with ConfPostgreSQL.get_connection() as conn:
                     cur = conn.cursor()
                     cur.execute('SELECT language FROM preferred_language WHERE guild_id = %s;', (self.guild_id,))
-                    return cur.fetchone()[0]
+                    try:
+                        return cur.fetchone()[0]
+                    except TypeError:
+                        self.set_language('en')  # Set the language to English if it is not set
+                        return 'en'
             except psycopg2.errors.ForeignKeyViolation:
                 return None
 

@@ -1,17 +1,22 @@
 from library.storage import var, ConfPostgreSQL
 from library.encryption import encryption
-keys = encryption('library/private.key')
+import os
 
+keys = encryption('library/private.key')
+use_debug_token = os.environ.get("USE_DEBUG_TOKEN", False)
 if var.get("token") is None:
     token = input("Please enter bot token: ")
     var.set("token", keys.encrypt(token))
+if use_debug_token:
+    if var.get("debug_token") is None:
+        token = input("Please enter debug token: ")
+        var.set("debug_token", token)
 
 from library.botapp import botapp
 import datetime
 import logging
 import dotenv
 import hikari
-import os
 
 dotenv.load_dotenv('.env')
 
@@ -44,7 +49,7 @@ botapp.load_extensions_from("cogs/admin")
 botapp.load_extensions_from("cogs/other")
 botapp.load_extensions_from("cogs/money_cmds")
 botapp.load_extensions_from("cogs/subscriptions")
-# botapp.load_extensions_from("cogs/market")
+botapp.load_extensions_from("cogs/market")
 botapp.load_extensions_from("cogs/jobs")
 
 if bool(os.environ.get("REVEAL_DB_PASS", False)) is True:
@@ -53,6 +58,9 @@ if bool(os.environ.get("REVEAL_DB_PASS", False)) is True:
 
 if bool(os.environ.get("REVEAL_BOT_TOKEN", False)) is True:
     print("Environment variable REVEAL_BOT_TOKEN is set to True")
-    print("Bot token is:", keys.decrypt(var.get("token")))
+    if use_debug_token is False:
+        print("Bot token is:", keys.decrypt(var.get("token")))
+    else:
+        print("Bot debug token is:", os.environ.get("debug_token"))
 
 botapp.run()

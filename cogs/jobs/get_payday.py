@@ -46,6 +46,7 @@ async def command(ctx: lightbulb.SlashContext) -> None:
                 description=localize("The admins haven't set a payday yet.") + "\n" + localize("You should remind them to set one by running `/admin payday`")
             )
         )
+        return
     payday_int = payday_map[payday]
 
     payday = localize(payday)

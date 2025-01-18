@@ -76,6 +76,8 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
             flags=hikari.MessageFlag.EPHEMERAL
         )
         raise event.exception
+    elif isinstance(event.exception, hikari.errors.NotFoundError):
+        pass  # Ignore this error, since we can't do anything about it.
     else:
         await event.context.respond(
             localize("An unknown error occured :( Please try again later when the issue is resolved."),
