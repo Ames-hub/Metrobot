@@ -693,5 +693,95 @@
     "en": "You do not have permission to fine users.",
     "es": "No tienes permiso para multar a los usuarios.",
     "fr": "Vous n'avez pas la permission d'amender les utilisateurs."
+  },
+  "Market | Page %s": {
+    "en": "Market | Page %s",
+    "es": "Mercado | Página %s",
+    "fr": "Marché | Page %s"
+  },
+  "Here are the items available for purchase.": {
+    "en": "Here are the items available for purchase.",
+    "es": "Aquí están los artículos disponibles para la compra.",
+    "fr": "Voici les articles disponibles à l'achat."
+  },
+  "Items": {
+    "en": "Items",
+    "es": "Artículos",
+    "fr": "Articles"
+  },
+  "No items available.": {
+    "en": "No items available",
+    "es": "No hay artículos disponibles",
+    "fr": "Aucun article disponible"
+  },
+  "%s%s | %s | %s tradable<br>%s": {
+    "en": "%s%s | %s | %s tradable<br>%s",
+    "es": "%s%s | %s | %s negociable<br>%s",
+    "fr": "%s%s | %s | %s échangeable<br>%s"
+  },
+  "Item added to the market.": {
+    "en": "Item added to the market.",
+    "es": "Artículo añadido al mercado.",
+    "fr": "Article ajouté au marché."
+  },
+  "The item has been added to the market.": {
+    "en": "The item has been added to the market.",
+    "es": "El artículo ha sido añadido al mercado.",
+    "fr": "L'article a été ajouté au marché."
+  },
+  "Item not added to the market.": {
+    "en": "Item not added to the market.",
+    "es": "Artículo no añadido al mercado.",
+    "fr": "Article non ajouté au marché."
+  },
+  "The item could not be added to the market.": {
+    "en": "The item could not be added to the market.",
+    "es": "El artículo no pudo ser añadido al mercado.",
+    "fr": "L'article n'a pas pu être ajouté au marché."
+  },
+  "Invalid rarity." : {
+    "en": "Invalid rarity.",
+    "es": "Rareza inválida.",
+    "fr": "Rareté invalide."
+  },
+  "The rarity must be one of common, uncommon, rare, epic, or legendary." : {
+    "en": "The rarity must be one of common, uncommon, rare, epic, or legendary.",
+    "es": "La rareza debe ser una de común, poco común, rara, épica o legendaria.",
+    "fr": "La rareté doit être l'une des suivantes: commune, peu commune, rare, épique ou légendaire."
+  },
+  "Common": {
+    "en": "Common",
+    "es": "Común",
+    "fr": "Commun"
+  },
+  "Uncommon": {
+    "en": "Uncommon",
+    "es": "Poco común",
+    "fr": "Peu commun"
+  },
+  "Rare": {
+    "en": "Rare",
+    "es": "Rara",
+    "fr": "Rare"
+  },
+  "Epic": {
+    "en": "Epic",
+    "es": "Épica",
+    "fr": "Épique"
+  },
+  "Legendary": {
+      "en": "Legendary",
+      "es": "Legendaria",
+      "fr": "Légendaire"
+  },
+  "Truly Unique": {
+      "en": "Truly Unique",
+      "es": "Verdaderamente Único",
+      "fr": "Vraiment Unique"
+  },
+  "Not": {
+    "en": "Not",
+    "es": "No",
+    "fr": "Pas"
   }
 }

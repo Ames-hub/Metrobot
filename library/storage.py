@@ -200,8 +200,7 @@ class var:
         """
         # Logs the file it creates, and which file and line called it.
         if DEBUG is True:
-            logging.info(
-                f'file \'{file}\' was filled with data by {inspect.stack()[1].filename}:{inspect.stack()[1].lineno}')
+            logging.info(f'file \'{file}\' was filled with data by {inspect.stack()[1].filename}:{inspect.stack()[1].lineno}')
 
         if "/" in file or "\\" in file:
             os.makedirs(os.path.dirname(file), exist_ok=True)
@@ -234,17 +233,17 @@ class ConfPostgreSQL:
                 'guild_id': 'BIGINT NOT NULL',
             },
             'user_bank': {
-                'user_id': 'BIGINT NOT NULL PRIMARY KEY references user_data(user_id)',
-                'balance': 'BIGINT DEFAULT 0 check(balance >= 0)',
+                'user_id': 'BIGINT NOT NULL PRIMARY KEY',
+                'balance': 'BIGINT DEFAULT 1000 check(balance >= 0)',
             },
             'users_inventory': {
-                'user_id': 'BIGINT NOT NULL PRIMARY KEY REFERENCES user_data(user_id)',
+                'user_id': 'BIGINT NOT NULL PRIMARY KEY',
                 'item_name': 'TEXT NOT NULL',
                 'quantity': 'BIGINT DEFAULT 0',
             },
             'items': {
                 'uuid': 'SERIAL PRIMARY KEY',
-                'guild_id': 'BIGINT DEFAULT NULL',
+                'guild_id': 'BIGINT DEFAULT NULL',  # -1 if the item is global
                 'item_name': 'TEXT NOT NULL',
                 'description': 'TEXT DEFAULT NULL',
                 # The levels are: 1 - Common, 2 - Uncommon, 3 - Rare, 4 - Epic, 5 - Legendary, 6 - Truly Unique
@@ -614,6 +613,38 @@ class bank:
         return True
 
 class PostgreSQL:
+    @staticmethod
+    def ensure_global_market_items():
+        """
+        Ensure that the global market items are in the database.
+        :return:
+        """
+        with ConfPostgreSQL.get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute('SELECT item_name FROM items WHERE guild_id = -1;')
+            data = cur.fetchall()
+
+        global_items = {
+            'bracelet': {
+                'disp_name': 'Friendship bracelet',
+                'description': 'A promise of friendship.',
+                'rarity': 2,  # Uncommon
+                'value': 10,
+                'tradable': True
+            }
+        }
+
+        for item in global_items.keys():
+            item = global_items[item]
+            if item['name'] not in data:
+                with ConfPostgreSQL.get_connection() as conn:
+                    cur = conn.cursor()
+                    cur.execute('''
+                        INSERT INTO items (guild_id, item_name, description, rarity, value, tradable)
+                        VALUES (-1, %s, %s, %s, %s, %s);
+                    ''', (item['disp_name'], item['description'], item['rarity'], item['value'], item['tradable']))
+                    conn.commit()
+
     @staticmethod
     def get_leaderboard() -> dict:
         """
@@ -1118,6 +1149,33 @@ class PostgreSQL:
         def __init__(self, guild_id):
             self.guild_id = int(guild_id)
 
+        def add_item(self, name, description, rarity, value, tradable) -> bool:
+            """
+            Add an item to the market of the guild.
+
+            :param name: The name of the item.
+            :param description: The description of the item.
+            :param rarity: The rarity of the item.
+            :param value: The value of the item.
+            :param tradable: Whether the item is tradable or not.
+            """
+            assert rarity in range(1, 5), 'Rarity must be between 1 and 5.'
+            assert isinstance(tradable, bool), 'Tradable must be a boolean.'
+            assert isinstance(value, int), 'Value must be an integer.'
+            assert isinstance(name, str), 'Item name must be a string.'
+            assert isinstance(description, str), 'Description must be a string.'
+            try:
+                with ConfPostgreSQL.get_connection() as conn:
+                    cur = conn.cursor()
+                    cur.execute('''
+                        INSERT INTO items (guild_id, item_name, description, rarity, value, tradable)
+                        VALUES (%s, %s, %s, %s, %s, %s);
+                    ''', (self.guild_id, name, description, rarity, value, tradable))
+                    conn.commit()
+            except psycopg2.errors.UniqueViolation:
+                return False
+            return True
+
         def list_market_items(self) -> dict:
             """
             List all the market items in the guild.
@@ -1127,28 +1185,37 @@ class PostgreSQL:
             """
             with ConfPostgreSQL.get_connection() as conn:
                 cur = conn.cursor()
-                cur.execute('SELECT item_id, item_name, item_price, item_description FROM market_items WHERE guild_id = %s;', (self.guild_id,))
-                data = cur.fetchall()
+                cur.execute('SELECT uuid, item_name, description, rarity, value, tradable FROM items WHERE guild_id IN (-1, %s);', (self.guild_id,))
+                item_data = cur.fetchall()
 
-                # Get the stock of the items
-                cur.execute('SELECT * FROM items_in_shop WHERE guild_id = %s;', (self.guild_id,))
-                all_stock = cur.fetchone()
+                # Makes a request to items_in_shop table for all items in the uuids list
+                cur.execute('SELECT item_uuid, stock FROM items_in_shop')
+                stock_data = cur.fetchall()
+
+                print(stock_data)
 
             return_data = {}
-            for item in data:
-                return_data[item[0]] = {
-                    'item_id': item[0],
-                    'item_name': item[1],
-                    'item_price': item[2],
-                    'item_description': item[3],
-                    'stock': all_stock[item[0]] if all_stock is not None else 0
-                }
+            # Cross-references stock with data
+            for item in item_data:
+                for stock in stock_data:
+                    if item[0] == stock[0]:
+                        return_data[item[0]] = {
+                            'item_id': item[0],
+                            'item_name': item[1],
+                            'description': item[2],
+                            'rarity': item[3],
+                            'value': item[4],
+                            'tradable': item[5],
+                            'stock': stock[1]
+                        }
 
             return return_data
 
     class guild:
         def __init__(self, guild_id):
             self.guild_id = int(guild_id)
+
+            self.market = PostgreSQL.guild_market(self.guild_id)
 
             self.lang = None
             self.translations_file = "translations.json"
